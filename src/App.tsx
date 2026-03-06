@@ -354,7 +354,7 @@ export default function App() {
                   src={item.url} 
                   alt={item.title} 
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  className="w-full h-full object-cover transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <span className="text-[10px] font-bold uppercase tracking-widest">View</span>
