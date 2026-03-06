@@ -9,7 +9,6 @@ import {
   ArrowRight, 
   Instagram, 
   Twitter, 
-  Linkedin, 
   Mail, 
   Menu, 
   X, 
@@ -41,7 +40,11 @@ const IMAGE_IDS = [
   '1GxD6y0hEVEZpTYxMKbvXG_EM7OrrYlv_',
   '1wRmzAJoUs4UjlwI2io7ErrpgDmLQcTWk',
   '18_2Dl-ixGzJQX8MYyGCNM1Cu4nFgySW8',
-  '1RgkpDXlenL4rTFAjHOSSug0y_Uo0VeDd'
+  '1RgkpDXlenL4rTFAjHOSSug0y_Uo0VeDd',
+  '16rUANTaUTrhY5EWVHQC6ULBkCjEB_XoW',
+  '1c-HHmkvply73kvAeYhpwWEGWbh8fq2PF',
+  '1t1OX5khpFnH6Q-s2H2inlVy21Mn4uBlL',
+  '1W1-gZktUnHyoJgVknWM2sDuA5W-k5q2u'
 ];
 
 const getImageUrl = (id: string) => `https://lh3.googleusercontent.com/d/${id}`;
@@ -65,18 +68,17 @@ const FEATURED_PROJECTS = [
   },
   {
     id: IMAGE_IDS[2],
-    title: 'Structura',
-    subtitle: 'Corporate Identity',
-    description: 'A premium construction firm focused on sustainable urban development and high-end residential projects, requiring a robust and reliable brand presence.',
-    tags: ['Branding', 'Iconography', 'Marketing', 'Construction'],
+    title: 'Servifix',
+    subtitle: 'Service Branding',
+    description: 'A comprehensive branding and visual identity system for a construction and maintenance firm, emphasizing reliability, precision, and professional service delivery.',
+    tags: ['Branding', 'Identity', 'Construction', 'Service'],
     url: getImageUrl(IMAGE_IDS[2])
   }
 ];
 
-const CATALOGUE = IMAGE_IDS.slice(3).map((id, index) => ({
+const CATALOGUE = IMAGE_IDS.slice(3).map((id) => ({
   id,
-  title: `Project ${String(index + 4).padStart(2, '0')}`,
-  category: ['Visual System', 'Editorial', 'Typography', 'Digital'][index % 4],
+  title: '',
   url: getImageUrl(id)
 }));
 
@@ -205,9 +207,13 @@ export default function App() {
                   View Selected Work
                   <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
                 </a>
-                <button className="flex items-center gap-3 px-8 py-4 rounded-sm border border-white/10 font-bold hover:bg-white/5 transition-colors">
-                  Download Portfolio <Download size={18} />
-                </button>
+                <a 
+                  href="https://drive.google.com/file/d/1kyqTdZ2_NcJkm4rdANurQxE3MjeS5zOQ/view?usp=drivesdk" 
+                  target="_blank"
+                  className="flex items-center gap-3 px-8 py-4 rounded-sm border border-white/10 font-bold hover:bg-white/5 transition-colors"
+                >
+                  Download CV <Download size={18} />
+                </a>
               </div>
             </motion.div>
           </div>
@@ -272,6 +278,39 @@ export default function App() {
                       </span>
                     ))}
                   </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Picture Catalogue */}
+      <section className="pb-32 px-6 bg-black">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-12">
+            <h2 className="text-3xl font-black uppercase tracking-tighter">More Projects</h2>
+          </div>
+          <div className="columns-2 md:columns-3 lg:columns-4 gap-3">
+            {CATALOGUE.map((item, index) => (
+              <motion.div 
+                key={item.id}
+                whileHover={{ y: -5 }}
+                className="break-inside-avoid relative group overflow-hidden rounded-lg cursor-pointer mb-3"
+                onClick={() => setSelectedProject(item)}
+              >
+                <img 
+                  src={item.url} 
+                  alt={item.title} 
+                  referrerPolicy="no-referrer"
+                  className={`w-full h-auto object-cover transition-all duration-500 block ${
+                    index % 4 === 0 ? 'aspect-[4/5]' : 
+                    index % 4 === 1 ? 'aspect-[3/2]' : 
+                    index % 4 === 2 ? 'aspect-square' : 
+                    'aspect-[2/3]'
+                  }`}
+                />
+                <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 text-center">
                 </div>
               </motion.div>
             ))}
@@ -354,42 +393,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Picture Catalogue */}
-      <section className="py-32 px-6 bg-zinc-950">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-16">
-            <h2 className="text-4xl font-black uppercase">More Projects</h2>
-          </div>
-          <div className="columns-2 md:columns-3 lg:columns-4 gap-6">
-            {CATALOGUE.map((item, index) => (
-              <motion.div 
-                key={item.id}
-                whileHover={{ y: -5 }}
-                className="break-inside-avoid relative group overflow-hidden rounded-xl cursor-pointer mb-6"
-                onClick={() => setSelectedProject(item)}
-              >
-                <img 
-                  src={item.url} 
-                  alt={item.title} 
-                  referrerPolicy="no-referrer"
-                  className={`w-full h-auto object-cover transition-all duration-500 block ${
-                    index % 4 === 0 ? 'aspect-[4/5]' : 
-                    index % 4 === 1 ? 'aspect-[3/2]' : 
-                    index % 4 === 2 ? 'aspect-square' : 
-                    'aspect-[2/3]'
-                  }`}
-                />
-                <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-6 text-center">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] mb-2 text-blue-500">{item.category}</span>
-                  <h4 className="text-sm font-black uppercase tracking-tighter">{item.title}</h4>
-                  <div className="mt-4 w-8 h-px bg-white/20" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Quick Background */}
       <section id="about" className="py-32 px-6 border-y border-white/5">
         <div className="max-w-3xl mx-auto text-center">
@@ -416,9 +419,6 @@ export default function App() {
               Oluwagbogoidowu@gmail.com
             </a>
             <div className="flex gap-6">
-              <a href="https://www.linkedin.com/in/emmanuel-idowu-744969164?" target="_blank" className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest hover:text-blue-500 transition-colors">
-                <Linkedin size={18} /> LinkedIn
-              </a>
               <a href="https://wa.me/+2348132531112" target="_blank" className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest hover:text-blue-500 transition-colors">
                 <MessageSquare size={18} /> WhatsApp
               </a>
@@ -426,9 +426,13 @@ export default function App() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-6">
-            <button className="bg-white text-black px-10 py-5 rounded-sm font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all">
+            <a 
+              href="https://drive.google.com/file/d/1kyqTdZ2_NcJkm4rdANurQxE3MjeS5zOQ/view?usp=drivesdk" 
+              target="_blank"
+              className="bg-white text-black px-10 py-5 rounded-sm font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all"
+            >
               Download CV
-            </button>
+            </a>
             <a href="https://wa.me/+2348132531112" className="border border-white/10 px-10 py-5 rounded-sm font-black uppercase tracking-widest hover:bg-white/5 transition-all">
               Start a Conversation
             </a>
@@ -441,7 +445,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-xl font-black tracking-tighter">EMMANUEL IDOWU.</div>
           <div className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-30">
-            © 2024 ALL RIGHTS RESERVED
+            © 2026 ALL RIGHTS RESERVED
           </div>
           <div className="flex gap-8 text-[10px] font-bold tracking-widest uppercase opacity-30">
             <a href="#">Instagram</a>
@@ -500,10 +504,6 @@ export default function App() {
                 referrerPolicy="no-referrer"
                 className="w-full h-auto rounded-lg shadow-2xl pointer-events-none"
               />
-              <div className="mt-8 text-center">
-                <h3 className="text-3xl font-black uppercase mb-2">{selectedProject.title}</h3>
-                <p className="text-zinc-400 uppercase tracking-widest text-xs font-bold">{selectedProject.category || selectedProject.subtitle}</p>
-              </div>
             </motion.div>
           </motion.div>
         )}
