@@ -26,7 +26,7 @@ import {
 // Google Drive Image IDs provided by the user
 const IMAGE_IDS = [
   '1oaglk7ZnnSn6nao3bgjdyioVsgxSCY85', // New Project 1
-  '1Hwm439Vme0VJQ9iA3KWI0dl9EbBW2CQH', // New Project 2
+  '1Cynj6SV10utwm3ZfadnC6FRB9bH9nyE9', // New Project 2
   '1FXamc43tsiuBicprGbmNoTFrsw6OavNH', // New Project 3
   '1OT8BEuz5ZhTFT64m-T_RtPtvX7Dh0-n_', // Old Project 1
   '1ekhUWtmR4i4QsaDW3FwmolE05dAE5EA0', // Old Project 2
