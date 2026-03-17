@@ -46,7 +46,7 @@ const IMAGE_IDS = [
   '1m-IYiA6qA2sKUEO82PCC4AMdL0_832o1',
   '16rUANTaUTrhY5EWVHQC6ULBkCjEB_XoW',
   '1nCMwk96LW9wMmt5R8kRtkM229MBYlu8V',
-  '1c-HHmkvply73kvAeYhpwWEGWbh8fq2PF',
+  '1mjw6cwQxPK_xIf4czWAl_8TurVSj21qh',
   '1WJdQeRjK0wCNoJWENyG36O7BU52YcKwe',
   '1t1OX5khpFnH6Q-s2H2inlVy21Mn4uBlL',
   '1W1-gZktUnHyoJgVknWM2sDuA5W-k5q2u'
