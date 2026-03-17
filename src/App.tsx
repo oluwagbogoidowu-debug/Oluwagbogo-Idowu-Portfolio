@@ -211,13 +211,6 @@ export default function App() {
                   View Selected Work
                   <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
                 </a>
-                <a 
-                  href="https://drive.google.com/file/d/1kyqTdZ2_NcJkm4rdANurQxE3MjeS5zOQ/view?usp=drivesdk" 
-                  target="_blank"
-                  className="flex items-center gap-3 px-8 py-4 rounded-sm border border-white/10 font-bold hover:bg-white/5 transition-colors"
-                >
-                  Download CV <Download size={18} />
-                </a>
               </div>
             </motion.div>
           </div>
@@ -430,13 +423,7 @@ export default function App() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-6">
-            <a 
-              href="https://drive.google.com/file/d/1kyqTdZ2_NcJkm4rdANurQxE3MjeS5zOQ/view?usp=drivesdk" 
-              target="_blank"
-              className="bg-white text-black px-10 py-5 rounded-sm font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all"
-            >
-              Download CV
-            </a>
+            
             <a href="https://wa.me/+2348132531112" className="border border-white/10 px-10 py-5 rounded-sm font-black uppercase tracking-widest hover:bg-white/5 transition-all">
               Start a Conversation
             </a>
