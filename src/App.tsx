@@ -26,12 +26,12 @@ import {
 // Google Drive Image IDs provided by the user
 const IMAGE_IDS = [
   '1oaglk7ZnnSn6nao3bgjdyioVsgxSCY85', // New Project 1
-  '1Cynj6SV10utwm3ZfadnC6FRB9bH9nyE9', // New Project 2
+  '1Hwm439Vme0VJQ9iA3KWI0dl9EbBW2CQH', // New Project 2
   '1FXamc43tsiuBicprGbmNoTFrsw6OavNH', // New Project 3
   '1OT8BEuz5ZhTFT64m-T_RtPtvX7Dh0-n_', // Old Project 1
   '1ekhUWtmR4i4QsaDW3FwmolE05dAE5EA0', // Old Project 2
   '1Ip9LeUwwI4PFvraYfO-ZXOBtz7WzuNwy', // Old Project 3
-  '1p8rZoYneDhX9p3_OS57R60B4WD4Kuf9-',
+  '1Dcik_guASt5jyoTmuBcr7WYFmOSaabRe',
   '1hc8z33L_FXsuvu5_iHcYrXKLbkofxD9R',
   '1rL-Oe4UBmgi_l2EG4_tgtnKCS5b7wyNv',
   '1j25QQj3pxZlgoihrkJe3-TJQlemhZ7Ta',
@@ -39,14 +39,10 @@ const IMAGE_IDS = [
   '1zwbPIEYFh5zROuKAmwesC4j_UqcnnPIe',
   '1GxD6y0hEVEZpTYxMKbvXG_EM7OrrYlv_',
   '1wRmzAJoUs4UjlwI2io7ErrpgDmLQcTWk',
-  '1LRWtwTjDZd6qs7fSq7ugo02Dg83lJd7E',
   '18_2Dl-ixGzJQX8MYyGCNM1Cu4nFgySW8',
   '1RgkpDXlenL4rTFAjHOSSug0y_Uo0VeDd',
-  '1di31zZMXcTpqa15nqDkimS9PR1zRo3bl',
-  '1m-IYiA6qA2sKUEO82PCC4AMdL0_832o1',
   '16rUANTaUTrhY5EWVHQC6ULBkCjEB_XoW',
-  '1nCMwk96LW9wMmt5R8kRtkM229MBYlu8V',
-  '1mjw6cwQxPK_xIf4czWAl_8TurVSj21qh',
+  '1c-HHmkvply73kvAeYhpwWEGWbh8fq2PF',
   '1t1OX5khpFnH6Q-s2H2inlVy21Mn4uBlL',
   '1W1-gZktUnHyoJgVknWM2sDuA5W-k5q2u'
 ];
@@ -133,7 +129,7 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             className="text-xl font-black tracking-tighter"
           >
-            EMMANUEL IDOWU.
+            OLUWAGBOGO IDOWU.
           </motion.div>
           
           <div className="hidden md:flex gap-12 text-[10px] font-bold tracking-[0.3em] uppercase opacity-50">
@@ -210,6 +206,13 @@ export default function App() {
                 <a href="#work" className="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-sm font-bold hover:bg-blue-600 hover:text-white transition-all duration-300">
                   View Selected Work
                   <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
+                </a>
+                <a 
+                  href="https://drive.google.com/file/d/1kyqTdZ2_NcJkm4rdANurQxE3MjeS5zOQ/view?usp=drivesdk" 
+                  target="_blank"
+                  className="flex items-center gap-3 px-8 py-4 rounded-sm border border-white/10 font-bold hover:bg-white/5 transition-colors"
+                >
+                  Download CV <Download size={18} />
                 </a>
               </div>
             </motion.div>
@@ -423,7 +426,13 @@ export default function App() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-6">
-            
+            <a 
+              href="https://drive.google.com/file/d/1kyqTdZ2_NcJkm4rdANurQxE3MjeS5zOQ/view?usp=drivesdk" 
+              target="_blank"
+              className="bg-white text-black px-10 py-5 rounded-sm font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all"
+            >
+              Download CV
+            </a>
             <a href="https://wa.me/+2348132531112" className="border border-white/10 px-10 py-5 rounded-sm font-black uppercase tracking-widest hover:bg-white/5 transition-all">
               Start a Conversation
             </a>
@@ -434,7 +443,7 @@ export default function App() {
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-white/5 bg-black">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-xl font-black tracking-tighter">EMMANUEL IDOWU.</div>
+          <div className="text-xl font-black tracking-tighter">OLUWAGBOGO IDOWU.</div>
           <div className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-30">
             © 2026 ALL RIGHTS RESERVED
           </div>
