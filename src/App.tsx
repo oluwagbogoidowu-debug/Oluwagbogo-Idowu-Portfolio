@@ -195,10 +195,9 @@ export default function App() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
               <h1 className="text-5xl md:text-[7vw] font-black leading-[0.9] tracking-tighter uppercase mb-8">
-                Design that helps <br />
-                brands become <br />
-                <span className="text-blue-600">impossible</span> <br />
-                to ignore.
+                Design that brings  <br />
+                clarity to that helps <br />
+                <span className="text-blue-600">complex ideas</span> <br >
               </h1>
               <p className="max-w-xl text-lg md:text-xl text-zinc-400 mb-10 leading-relaxed font-medium">
                 Graphic, Brand & UI Designer with 8+ years designing brand systems and digital interfaces.
