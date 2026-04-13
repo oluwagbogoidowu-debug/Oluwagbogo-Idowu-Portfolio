@@ -26,12 +26,11 @@ import {
 // Google Drive Image IDs provided by the user
 const IMAGE_IDS = [
   '1oaglk7ZnnSn6nao3bgjdyioVsgxSCY85', // New Project 1
-  '1Cynj6SV10utwm3ZfadnC6FRB9bH9nyE9', // New Project 2
-  '1FXamc43tsiuBicprGbmNoTFrsw6OavNH', // New Project 3
-  '1mTN6v5N2Th0C5f8LWpMTPX6hS1cs6tR1', // Old Project 1
-  '1ekhUWtmR4i4QsaDW3FwmolE05dAE5EA0', // Old Project 2
-  '1Ip9LeUwwI4PFvraYfO-ZXOBtz7WzuNwy', // Old Project 3
-  '1p8rZoYneDhX9p3_OS57R60B4WD4Kuf9-',
+  '1p8rZoYneDhX9p3_OS57R60B4WD4Kuf9-', // New Project 2
+  '1FXamc43tsiuBicprGbmNoTFrsw6OavNH', // New Project 1
+  '1Oofcu-8Gr4SToeZWHhOj6lJAxFHOC7ZA', // Old Project 1
+  '1mTN6v5N2Th0C5f8LWpMTPX6hS1cs6tR1', // Old Project 2
+  '18iuKDoqJgoi2Qf-oDnMH_4UDxyqyVz9K',
   '1hc8z33L_FXsuvu5_iHcYrXKLbkofxD9R',
   '1rL-Oe4UBmgi_l2EG4_tgtnKCS5b7wyNv',
   '1j25QQj3pxZlgoihrkJe3-TJQlemhZ7Ta',
@@ -48,7 +47,11 @@ const IMAGE_IDS = [
   '1nCMwk96LW9wMmt5R8kRtkM229MBYlu8V',
   '1mjw6cwQxPK_xIf4czWAl_8TurVSj21qh',
   '1t1OX5khpFnH6Q-s2H2inlVy21Mn4uBlL',
-  '1W1-gZktUnHyoJgVknWM2sDuA5W-k5q2u'
+  '1W1-gZktUnHyoJgVknWM2sDuA5W-k5q2u',
+  '1daJ0HBXm_CYnvOWd-PtOS2Ul61YYT8NM',
+  '1MKjgKre20tE_AI59yROtfNNCMZEkV3h0',
+  '1_ol1xYyrl5U9GJwthTLXm6g-THiIA4_j',
+  '1zbQvw5PJXB4BiqbsOArqvYj1AI-fCIx-'
 ];
 
 const getImageUrl = (id: string) => `https://lh3.googleusercontent.com/d/${id}`;
