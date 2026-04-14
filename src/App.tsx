@@ -202,7 +202,7 @@ export default function App() {
               </h1>
               <p className="max-w-xl text-lg md:text-xl text-zinc-400 mb-10 leading-relaxed font-medium">
                 I focus on turning unclear ideas into structured visual systems people can understand and act on. 
-               <span className="text-blue-600"> I’m a graphic, brand, and UI designer focused on building clear, structured visual systems. </span>             
+               <span className="text-white-600"> I’m a graphic, brand, and UI designer focused on building clear, structured visual systems. </span>             
               </p>
               <div className="flex flex-wrap gap-4">
                 <a href="#work" className="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-sm font-bold hover:bg-blue-600 hover:text-white transition-all duration-300">
