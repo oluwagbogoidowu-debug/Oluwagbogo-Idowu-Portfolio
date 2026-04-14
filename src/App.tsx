@@ -131,7 +131,7 @@ export default function App() {
   className="flex items-center gap-3"
 >
   <img
-    src="Public/20251218_072429.jpg"
+    src="20251218_072429.jpg"
     alt="Oluwagbogo Idowu"
     className="w-10 h-10 rounded-full object-cover"
   />
