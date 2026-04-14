@@ -52,28 +52,28 @@ const getImageUrl = (id: string) => `https://lh3.googleusercontent.com/d/${id}`;
 
 const FEATURED_PROJECTS = [
   {
-    id: IMAGE_IDS[0],
-    title: 'Afriradar',
-    subtitle: 'Carousel Design',
-    description: 'A media publishing company dedicated to telling the most compelling stories of tech news and digital updates across the African continent.',
-    tags: ['Carousel Design', 'Social Media', 'Tech News', 'Africa'],
-    url: getImageUrl(IMAGE_IDS[0])
-  },
-  {
     id: IMAGE_IDS[1],
     title: 'Vectorise',
     subtitle: 'Product Interface & Visual System',
-    description: 'Problem: A tech platform needed a clean interface and visual structure to help users navigate complex information easily. Solution: Created a UI structure using consistent typography, spacing systems, and clear visual hierarchy. Result: A structured interface that improves clarity and usability across the platform.',
+    description: 'A product-focused project designed to simplify how users navigate complex personal growth systems.\n\n**Problem:** Users needed a clearer way to navigate layered personal growth content without confusion.\n**Approach:** Designed a structured UI system using consistent hierarchy, spacing, and visual cues.\n**Outcome:** Created a clean, intuitive interface that improves clarity and user flow across the platform.',
     tags: ['Visual System', 'UI Design', 'Typography'],
     url: getImageUrl(IMAGE_IDS[1])
   },
   {
     id: IMAGE_IDS[2],
     title: 'Servifix',
-    subtitle: 'Service Branding',
-    description: 'A comprehensive branding and visual identity system for a construction and maintenance firm, emphasizing reliability, precision, and professional service delivery.',
+    subtitle: 'Brand Identity',
+    description: 'A brand identity project focused on creating a clear and trustworthy visual presence for a service-based platform.\n\n**Problem:** The brand needed a clear identity that communicates trust and professionalism in a crowded service market.\n**Approach:** Developed a visual system centered on simplicity, consistency, and recognizability across touchpoints.\n**Outcome:** Delivered a cohesive identity that strengthens brand perception and improves visual consistency.',
     tags: ['Branding', 'Identity', 'Construction', 'Service'],
     url: getImageUrl(IMAGE_IDS[2])
+  },
+  {
+    id: IMAGE_IDS[0],
+    title: 'Afriradar',
+    subtitle: 'Content & Visual Design',
+    description: 'Designed engaging visual content to communicate fast-paced tech stories clearly and consistently across social media platforms, maintaining a modern and recognizable visual style.',
+    tags: ['Content Design', 'Social Media', 'Tech', 'Africa'],
+    url: getImageUrl(IMAGE_IDS[0])
   }
 ];
 
