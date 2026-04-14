@@ -333,6 +333,7 @@ export default function App() {
             ))}
           </div>
           </div>
+  
         </div>
       </section>
 
@@ -360,6 +361,7 @@ export default function App() {
                 </span>
               ))}
             </div>
+          </div>
             <div>
             <h2 className="text-4xl font-black uppercase mb-12">Support Tools </h2>
             <div className="flex flex-wrap gap-4">
@@ -369,7 +371,7 @@ export default function App() {
                 </span>
               ))}
             </div>
-          </div>
+            </div>
         </div>
       </section>
 
