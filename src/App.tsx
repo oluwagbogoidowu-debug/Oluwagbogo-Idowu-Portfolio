@@ -29,14 +29,11 @@ const IMAGE_IDS = [
   '1p8rZoYneDhX9p3_OS57R60B4WD4Kuf9-', // New Project 2
   '19uj5_a2ax9DGKnwS8uoKKcEZlSl7z0Lo', // New Project 3
   '1_ol1xYyrl5U9GJwthTLXm6g-THiIA4_j', // Old Project 1
-  '1mTN6v5N2Th0C5f8LWpMTPX6hS1cs6tR1', // Old Project 2
-  '18iuKDoqJgoi2Qf-oDnMH_4UDxyqyVz9K',
+  '18iuKDoqJgoi2Qf-oDnMH_4UDxyqyVz9K', // Old Project 2
   '1hc8z33L_FXsuvu5_iHcYrXKLbkofxD9R',
   '1rL-Oe4UBmgi_l2EG4_tgtnKCS5b7wyNv',
   '1daJ0HBXm_CYnvOWd-PtOS2Ul61YYT8NM',
   '1j25QQj3pxZlgoihrkJe3-TJQlemhZ7Ta',
-  '1xONmPhvg7H5FV1JBz5_2uNhL095wNx-W',
-  '1zwbPIEYFh5zROuKAmwesC4j_UqcnnPIe',
   '1GxD6y0hEVEZpTYxMKbvXG_EM7OrrYlv_',
   '1wRmzAJoUs4UjlwI2io7ErrpgDmLQcTWk',
   '1LRWtwTjDZd6qs7fSq7ugo02Dg83lJd7E',
@@ -89,8 +86,11 @@ const CAPABILITIES = [
 ];
 
 const TOOLS = [
-  'Canva', 'Figma', 'Illustrator', 'Coreldraw', 
-  'Photoshop', 'InDesign', 'Pixellab'
+  'Figma', 'Illustrator', 'Coreldraw', 
+  'Photoshop', 
+];
+  const SUPPORTTOOLS = [
+  'Canva', 'InDesign', 'Pixellab'
 ];
 
 export default function App() {
@@ -316,8 +316,7 @@ export default function App() {
       <section id="approach" className="py-32 px-6 bg-zinc-950">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-24">
-            <span className="text-[10px] font-bold tracking-[0.5em] uppercase text-blue-600 mb-4 block">Your Edge</span>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">My Approach to Design</h2>
+          <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">My Approach to Design</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -333,28 +332,6 @@ export default function App() {
               </div>
             ))}
           </div>
-
-          {/* Design Thinking Snapshot */}
-          <div className="mt-32 p-12 border border-white/5 rounded-3xl bg-gradient-to-br from-zinc-900 to-black">
-            <div className="text-center mb-16">
-              <h3 className="text-3xl font-black uppercase">Design Thinking Snapshot</h3>
-            </div>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-24 h-24 rounded-full border-2 border-white/10 flex items-center justify-center text-xl font-bold">The Pivot</div>
-                <span className="text-[10px] font-bold uppercase tracking-widest opacity-40">Strategy</span>
-              </div>
-              <ArrowRight className="hidden md:block text-blue-600" size={32} />
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-32 h-32 rounded-full border-2 border-blue-600 flex items-center justify-center text-2xl font-black">Brand</div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600">Identity</span>
-              </div>
-              <ArrowRight className="hidden md:block text-blue-600" size={32} />
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-24 h-24 rounded-full border-2 border-white/10 flex items-center justify-center text-xl font-bold">Comm.</div>
-                <span className="text-[10px] font-bold uppercase tracking-widest opacity-40">Visuals</span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -375,9 +352,18 @@ export default function App() {
           </div>
           
           <div>
-            <h2 className="text-4xl font-black uppercase mb-12">Tools of the Trade</h2>
+            <h2 className="text-4xl font-black uppercase mb-12">Design Tools </h2>
             <div className="flex flex-wrap gap-4">
               {TOOLS.map(tool => (
+                <span key={tool} className="px-6 py-3 bg-zinc-900 border border-white/10 rounded-sm text-xs font-bold uppercase tracking-widest hover:border-blue-600 transition-colors">
+                  {tool}
+                </span>
+              ))}
+            </div>
+            <div>
+            <h2 className="text-4xl font-black uppercase mb-12">Support Tools </h2>
+            <div className="flex flex-wrap gap-4">
+              {SUPPORTTOOLS.map(tool => (
                 <span key={tool} className="px-6 py-3 bg-zinc-900 border border-white/10 rounded-sm text-xs font-bold uppercase tracking-widest hover:border-blue-600 transition-colors">
                   {tool}
                 </span>
@@ -392,7 +378,7 @@ export default function App() {
         <div className="max-w-3xl mx-auto text-center">
           <span className="text-[10px] font-bold tracking-[0.5em] uppercase text-blue-600 mb-8 block">Quick Background</span>
           <p className="text-2xl md:text-3xl font-medium leading-relaxed italic">
-            "I started in graphic design over eight years ago and later moved deeper into brand development. My focus today is helping organizations communicate their value through clear, structured visual identities."
+            "My background spans graphic design and brand development, with a focus today on helping organizations communicate clearly through structured visual systems”         
           </p>
         </div>
       </section>
@@ -402,7 +388,8 @@ export default function App() {
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-12">
             Let's build <br />
-            something <span className="text-blue-600">meaningful.</span>
+            something <span className="text-blue-600">clear and effective</span>
+            
           </h2>
           
           <div className="flex flex-col items-center gap-8 mb-20">
