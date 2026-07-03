@@ -20,13 +20,15 @@ import {
   PenTool,
   Smartphone,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  ChevronDown,
+  Maximize2
 } from 'lucide-react';
 
 // Google Drive Image IDs provided by the user
 const IMAGE_IDS = [
   '1oaglk7ZnnSn6nao3bgjdyioVsgxSCY85', // New Project 1
-  '11n-6A1ed3h0QgAA7SXxzBT4lnoDZJEj4', // New Project 2
+  '1a-mjSAYMvHAFcAugFxGNuwS41Lh_BidX', // New Project 2
   '1ENHWE5EojetEK2Fh1o1Vsf5jZzy0DkPi', // New Project 3
   '1zbQvw5PJXB4BiqbsOArqvYj1AI-fCIx-', // Old Project 1
   '1Oofcu-8Gr4SToeZWHhOj6lJAxFHOC7ZA', // Old Project 2
@@ -85,33 +87,60 @@ const CAPABILITIES = [
   'Social Media Graphics', 'Marketing Design', 'Presentation Design'
 ];
 
-const TOOLS = [
-  'Figma', 'Illustrator', 'Coreldraw', 
-  'Photoshop', 
+const DESIGN_TOOLS = [
+  'Figma', 'Illustrator', 'Coreldraw', 'Photoshop'
 ];
-  const SUPPORTTOOLS = [
+
+const SUPPORT_TOOLS = [
   'Canva', 'InDesign', 'Pixellab'
 ];
+
+const parseDescription = (desc: string) => {
+  const hasDetails = desc.includes('Problem:') || desc.includes('Approach:') || desc.includes('Outcome:');
+  
+  if (!hasDetails) {
+    return { intro: desc, details: null };
+  }
+  
+  const parts = desc.split('\n\n');
+  const intro = parts[0];
+  const detailsParts = parts.slice(1);
+  
+  const details = detailsParts.map(part => {
+    const colonIndex = part.indexOf(':');
+    if (colonIndex !== -1) {
+      const label = part.substring(0, colonIndex).trim();
+      const text = part.substring(colonIndex + 1).trim();
+      return { label, text };
+    }
+    return { label: '', text: part };
+  });
+  
+  return { intro, details };
+};
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<any | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [expandedProjects, setExpandedProjects] = useState<Record<string, boolean>>({});
 
   const handleNext = () => {
     if (!selectedProject) return;
-    const currentIndex = CATALOGUE.findIndex(item => item.id === selectedProject.id);
+    const allItems = [...FEATURED_PROJECTS, ...CATALOGUE];
+    const currentIndex = allItems.findIndex(item => item.id === selectedProject.id);
     if (currentIndex === -1) return;
-    const nextIndex = (currentIndex + 1) % CATALOGUE.length;
-    setSelectedProject(CATALOGUE[nextIndex]);
+    const nextIndex = (currentIndex + 1) % allItems.length;
+    setSelectedProject(allItems[nextIndex]);
   };
 
   const handlePrev = () => {
     if (!selectedProject) return;
-    const currentIndex = CATALOGUE.findIndex(item => item.id === selectedProject.id);
+    const allItems = [...FEATURED_PROJECTS, ...CATALOGUE];
+    const currentIndex = allItems.findIndex(item => item.id === selectedProject.id);
     if (currentIndex === -1) return;
-    const prevIndex = (currentIndex - 1 + CATALOGUE.length) % CATALOGUE.length;
-    setSelectedProject(CATALOGUE[prevIndex]);
+    const prevIndex = (currentIndex - 1 + allItems.length) % allItems.length;
+    setSelectedProject(allItems[prevIndex]);
   };
 
   useEffect(() => {
@@ -126,20 +155,12 @@ export default function App() {
       <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-black/90 backdrop-blur-md py-4' : 'bg-transparent py-8'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <motion.div 
-  initial={{ opacity: 0, x: -20 }}
-  animate={{ opacity: 1, x: 0 }}
-  className="flex items-center gap-3"
->
-  <img
-    src="20251218_072429.jpg"
-    alt="Oluwagbogo Idowu"
-    className="w-10 h-10 rounded-full object-cover"
-  />
-
-  <span className="text-xl font-black tracking-tighter">
-    OLUWAGBOGO IDOWU.
-  </span>
-</motion.div>
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="text-xl font-black tracking-tighter"
+          >
+            OLUWAGBOGO IDOWU.
+          </motion.div>
           
           <div className="hidden md:flex gap-12 text-[10px] font-bold tracking-[0.3em] uppercase opacity-50">
             {['Work', 'Approach', 'About', 'Contact'].map((item) => (
@@ -205,12 +226,11 @@ export default function App() {
               <h1 className="text-5xl md:text-[7vw] font-black leading-[0.9] tracking-tighter uppercase mb-8">
                 I create <br />
                 Design that brings <br />
-                clarity to <br />
-                <span className="text-blue-600">complex ideas</span>
+                <span className="text-blue-600">clarity</span> to <br />
+                complex ideas
               </h1>
               <p className="max-w-xl text-lg md:text-xl text-zinc-400 mb-10 leading-relaxed font-medium">
-                I focus on turning unclear ideas into structured visual systems people can understand and act on. 
-               <span className="font-bold text-white"> I’m a graphic, brand, and UI designer focused on building clear, structured visual systems. </span>             
+                I focus on turning unclear ideas into structured visual systems people can understand and act on. I’m a graphic, brand, and UI designer focused on building clear, structured visual systems.
               </p>
               <div className="flex flex-wrap gap-4">
                 <a href="#work" className="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-sm font-bold hover:bg-blue-600 hover:text-white transition-all duration-300">
@@ -244,7 +264,7 @@ export default function App() {
       <section id="work" className="py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="mb-20">
-         <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Selected Work</h2>
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Selected Work</h2>
           </div>
 
           <div className="space-y-32">
@@ -257,22 +277,47 @@ export default function App() {
                 className={`grid grid-cols-1 lg:grid-cols-12 gap-12 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
               >
                 <div className={`lg:col-span-7 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                  <div className="group relative aspect-[16/10] overflow-hidden bg-zinc-900 rounded-lg">
+                  <div 
+                    onClick={() => setSelectedProject(project)}
+                    className="group relative aspect-[16/10] overflow-hidden bg-zinc-900 rounded-lg cursor-pointer"
+                  >
                     <img 
                       src={project.url} 
                       alt={project.title}
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <div className="p-4 bg-zinc-900/90 backdrop-blur-md rounded-full border border-white/10 text-blue-500 scale-90 group-hover:scale-100 transition-all duration-300 flex items-center justify-center gap-2">
+                        <Maximize2 size={20} />
+                        <span className="text-[10px] font-bold tracking-widest uppercase pr-1">Full Screen</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className={`lg:col-span-5 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
                   <span className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-2 block">Project {index + 1}</span>
-                  <h3 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-6">{project.title} — {project.subtitle}</h3>
-                  <p className="text-zinc-400 text-lg mb-8 leading-relaxed">
-                    {project.description}
-                  </p>
+                  
+                  <div className="flex items-center justify-between gap-4 mb-6">
+                    <h3 className="text-4xl md:text-5xl font-black tracking-tighter uppercase">{project.title}</h3>
+                    <button
+                      onClick={() => setSelectedProject(project)}
+                      className="group/btn p-3 bg-zinc-900 border border-white/10 rounded-full hover:border-blue-600 text-zinc-400 hover:text-white transition-all cursor-pointer flex items-center justify-center"
+                      title="View Full Screen (Full Bleed)"
+                    >
+                      <Maximize2 size={18} className="group-hover/btn:scale-110 transition-transform text-blue-500" />
+                    </button>
+                  </div>
+                  
+                  {(() => {
+                    const parsed = parseDescription(project.description);
+                    return (
+                      <p className="text-zinc-400 text-lg mb-8 leading-relaxed">
+                        {parsed.intro}
+                      </p>
+                    );
+                  })()}
+
                   <div className="flex flex-wrap gap-3 mb-8">
                     {project.tags.map(tag => (
                       <span key={tag} className="text-[10px] font-bold tracking-widest uppercase px-3 py-1 border border-white/10 rounded-full">
@@ -301,6 +346,10 @@ export default function App() {
                 className="break-inside-avoid relative group overflow-hidden rounded-lg cursor-pointer mb-3"
                 onClick={() => setSelectedProject(item)}
               >
+                {/* Very small project label */}
+                <div className="absolute top-2 left-2 bg-black/80 backdrop-blur-sm text-[7.5px] font-bold text-blue-500 uppercase tracking-[0.12em] px-1.5 py-0.5 rounded-[2px] border border-white/10 z-10 transition-colors group-hover:border-blue-600/50">
+                  Project {index + 4}
+                </div>
                 <img 
                   src={item.url} 
                   alt={item.title} 
@@ -313,6 +362,9 @@ export default function App() {
                   }`}
                 />
                 <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 text-center">
+                  <span className="text-[10px] font-bold text-white uppercase tracking-widest border border-white/20 px-3 py-1.5 rounded-sm hover:bg-white hover:text-black transition-all">
+                    View Project
+                  </span>
                 </div>
               </motion.div>
             ))}
@@ -324,7 +376,8 @@ export default function App() {
       <section id="approach" className="py-32 px-6 bg-zinc-950">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-24">
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">My Approach to Design</h2>
+            <span className="text-[10px] font-bold tracking-[0.5em] uppercase text-blue-600 mb-4 block">Your Edge</span>
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">My Approach to Design</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -340,7 +393,30 @@ export default function App() {
               </div>
             ))}
           </div>
+
+          {/* Design Thinking Snapshot */}
+          <div className="mt-32 p-12 border border-white/5 rounded-3xl bg-gradient-to-br from-zinc-900 to-black">
+            <div className="text-center mb-16">
+              <h3 className="text-3xl font-black uppercase">Design Thinking Snapshot</h3>
+            </div>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-24 h-24 rounded-full border-2 border-white/10 flex items-center justify-center text-xl font-bold">The Pivot</div>
+                <span className="text-[10px] font-bold uppercase tracking-widest opacity-40">Strategy</span>
+              </div>
+              <ArrowRight className="hidden md:block text-blue-600" size={32} />
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-32 h-32 rounded-full border-2 border-blue-600 flex items-center justify-center text-2xl font-black">Brand</div>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600">Identity</span>
+              </div>
+              <ArrowRight className="hidden md:block text-blue-600" size={32} />
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-24 h-24 rounded-full border-2 border-white/10 flex items-center justify-center text-xl font-bold">Comm.</div>
+                <span className="text-[10px] font-bold uppercase tracking-widest opacity-40">Visuals</span>
+              </div>
+            </div>
           </div>
+        </div>
       </section>
 
       {/* Capabilities & Tools */}
@@ -359,25 +435,28 @@ export default function App() {
           </div>
           
           <div>
-            <h2 className="text-4xl font-black uppercase mb-12">Design Tools </h2>
-            <div className="flex flex-wrap gap-4">
-              {TOOLS.map(tool => (
-                <span key={tool} className="px-6 py-3 bg-zinc-900 border border-white/10 rounded-sm text-xs font-bold uppercase tracking-widest hover:border-blue-600 transition-colors">
-                  {tool}
-                </span>
-              ))}
+            <div className="mb-12">
+              <h2 className="text-4xl font-black uppercase mb-6">Design Tools</h2>
+              <div className="flex flex-wrap gap-3">
+                {DESIGN_TOOLS.map(tool => (
+                  <span key={tool} className="px-6 py-3 bg-zinc-900 border border-white/10 rounded-sm text-xs font-bold uppercase tracking-widest hover:border-blue-600 transition-colors">
+                    {tool}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-4xl font-black uppercase mb-6">Support Tools</h2>
+              <div className="flex flex-wrap gap-3">
+                {SUPPORT_TOOLS.map(tool => (
+                  <span key={tool} className="px-6 py-3 bg-zinc-900 border border-white/10 rounded-sm text-xs font-bold uppercase tracking-widest hover:border-blue-600 transition-colors">
+                    {tool}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
-            <div>
-            <h2 className="text-4xl font-black uppercase mb-12">Support Tools </h2>
-            <div className="flex flex-wrap gap-4">
-              {SUPPORTTOOLS.map(tool => (
-                <span key={tool} className="px-6 py-3 bg-zinc-900 border border-white/10 rounded-sm text-xs font-bold uppercase tracking-widest hover:border-blue-600 transition-colors">
-                  {tool}
-                </span>
-              ))}
-            </div>
-            </div>
         </div>
       </section>
 
@@ -386,7 +465,7 @@ export default function App() {
         <div className="max-w-3xl mx-auto text-center">
           <span className="text-[10px] font-bold tracking-[0.5em] uppercase text-blue-600 mb-8 block">Quick Background</span>
           <p className="text-2xl md:text-3xl font-medium leading-relaxed italic">
-            "My background spans graphic design and brand development, with a focus today on helping organizations communicate clearly through structured visual systems”         
+            "My background spans graphic design and brand development, with a focus today on helping organizations communicate clearly through structured visual systems”
           </p>
         </div>
       </section>
@@ -396,8 +475,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-12">
             Let's build <br />
-            something <span className="text-blue-600">clear and effective</span>
-            
+            something <span className="text-blue-600">clear and effective.</span>
           </h2>
           
           <div className="flex flex-col items-center gap-8 mb-20">
@@ -445,48 +523,188 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-12"
+            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-8"
           >
+            {/* Close Button */}
             <button 
               onClick={() => setSelectedProject(null)}
-              className="absolute top-8 right-8 p-4 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-10"
+              className="absolute top-4 right-4 lg:top-8 lg:right-8 p-3.5 bg-zinc-900/90 hover:bg-blue-600 hover:text-white rounded-full border border-white/10 transition-colors z-50 cursor-pointer text-zinc-400"
             >
-              <X size={24} />
+              <X size={20} />
             </button>
 
             {/* Navigation Buttons */}
             <button 
               onClick={(e) => { e.stopPropagation(); handlePrev(); }}
-              className="absolute left-4 md:left-8 p-4 bg-white/5 hover:bg-white/20 rounded-full transition-colors z-10 hidden md:block"
+              className="absolute left-2 lg:left-8 p-3.5 bg-zinc-900/90 hover:bg-blue-600 hover:text-white rounded-full border border-white/10 transition-colors z-50 cursor-pointer text-zinc-400 hidden sm:flex items-center justify-center"
             >
-              <ChevronLeft size={32} />
+              <ChevronLeft size={24} />
             </button>
             <button 
               onClick={(e) => { e.stopPropagation(); handleNext(); }}
-              className="absolute right-4 md:right-8 p-4 bg-white/5 hover:bg-white/20 rounded-full transition-colors z-10 hidden md:block"
+              className="absolute right-2 lg:right-8 p-3.5 bg-zinc-900/90 hover:bg-blue-600 hover:text-white rounded-full border border-white/10 transition-colors z-50 cursor-pointer text-zinc-400 hidden sm:flex items-center justify-center"
             >
-              <ChevronRight size={32} />
+              <ChevronRight size={24} />
             </button>
 
             <motion.div 
               key={selectedProject.id}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              onDragEnd={(_, info) => {
-                if (info.offset.x < -100) handleNext();
-                if (info.offset.x > 100) handlePrev();
-              }}
-              className="max-w-4xl w-full cursor-grab active:cursor-grabbing"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full max-w-6xl bg-zinc-950 border border-white/10 rounded-xl overflow-hidden shadow-2xl flex flex-col lg:flex-row h-[85vh] lg:h-[75vh]"
             >
-              <img 
-                src={selectedProject.url} 
-                alt={selectedProject.title}
-                referrerPolicy="no-referrer"
-                className="w-full h-auto rounded-lg shadow-2xl pointer-events-none"
-              />
+              {(() => {
+                const allItems = [...FEATURED_PROJECTS, ...CATALOGUE];
+                const projectIndex = allItems.findIndex(item => item.id === selectedProject.id);
+                const totalProjects = allItems.length;
+                const hasFullContent = !!selectedProject.description;
+                const parsed = hasFullContent ? parseDescription(selectedProject.description) : null;
+                
+                return (
+                  <>
+                    {/* Left Side: Contained Image */}
+                    <div className="flex-1 bg-black flex items-center justify-center relative overflow-hidden h-[50%] lg:h-full">
+                      <img 
+                        src={selectedProject.url} 
+                        alt={selectedProject.title || `Project ${projectIndex + 1}`}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-contain max-h-full max-w-full"
+                      />
+                      
+                      {/* Floating Navigation Controls on Image */}
+                      <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md text-[10px] font-bold text-zinc-400 uppercase tracking-widest px-3 py-1.5 rounded-sm border border-white/15">
+                        Project {projectIndex + 1} of {totalProjects}
+                      </div>
+                    </div>
+                    
+                    {/* Right Side: Full Content Pane (only if featured / hasFullContent) */}
+                    {hasFullContent ? (
+                      <div className="w-full lg:w-[460px] p-6 lg:p-8 flex flex-col justify-between overflow-y-auto border-t lg:border-t-0 lg:border-l border-white/10 bg-zinc-950/95 h-[50%] lg:h-full">
+                        <div>
+                          <div className="mb-6">
+                            <span className="text-xs font-bold text-blue-500 uppercase tracking-widest block mb-1">
+                              Project {projectIndex + 1}
+                            </span>
+                            <h3 className="text-3xl lg:text-4xl font-black uppercase tracking-tighter text-white">
+                              {selectedProject.title}
+                            </h3>
+                            {selectedProject.subtitle && (
+                              <p className="text-xs font-bold text-zinc-400 tracking-wider uppercase mt-1">
+                                {selectedProject.subtitle}
+                              </p>
+                            )}
+                          </div>
+                          
+                          <div className="w-12 h-[2px] bg-blue-600 mb-6" />
+                          
+                          {/* Parsed description details */}
+                          <div className="space-y-5 text-zinc-300 text-sm leading-relaxed mb-6">
+                            <p className="text-zinc-400 text-base font-medium leading-relaxed">
+                              {parsed?.intro}
+                            </p>
+                            
+                            {parsed?.details && (
+                              <div>
+                                {(() => {
+                                  const isExpanded = !!expandedProjects[selectedProject.id];
+                                  return (
+                                    <>
+                                      <button
+                                        onClick={() => setExpandedProjects(prev => ({ ...prev, [selectedProject.id]: !isExpanded }))}
+                                        className="flex items-center gap-2 px-4 py-2 border border-white/10 hover:border-blue-600 rounded-sm text-xs font-bold uppercase tracking-widest text-zinc-300 hover:text-white transition-all cursor-pointer bg-zinc-900/40 mb-4"
+                                      >
+                                        <span>{isExpanded ? 'See Less' : 'See More'}</span>
+                                        <ChevronDown 
+                                          className={`w-3.5 h-3.5 text-blue-500 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+                                        />
+                                      </button>
+                                      
+                                      <AnimatePresence initial={false}>
+                                        {isExpanded && (
+                                          <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: 'auto', opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                                            className="overflow-hidden space-y-4 pt-2"
+                                          >
+                                            {parsed.details.map((detail, idx) => (
+                                              <div key={idx} className="pl-3 border-l-2 border-blue-600/30">
+                                                <span className="text-white font-black uppercase text-[10px] tracking-wider block mb-1">
+                                                  {detail.label}
+                                                </span>
+                                                <span className="text-zinc-300 text-sm leading-relaxed">
+                                                  {detail.text}
+                                                </span>
+                                              </div>
+                                            ))}
+                                          </motion.div>
+                                        )}
+                                      </AnimatePresence>
+                                    </>
+                                  );
+                                })()}
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Tags */}
+                          {selectedProject.tags && (
+                            <div className="flex flex-wrap gap-2 mb-8">
+                              {selectedProject.tags.map((tag: string) => (
+                                <span key={tag} className="text-[9px] font-bold tracking-widest uppercase px-2.5 py-1 bg-zinc-900 border border-white/10 rounded-sm text-zinc-400">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Action WhatsApp Button */}
+                        <div className="pt-4 border-t border-white/5 flex gap-3">
+                          <a 
+                            href={`https://wa.me/+2348132531112?text=Hello%20Oluwagbogo,%20I'm%20interested%20in%20your%20project%20${selectedProject.title}`}
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center"
+                          >
+                            <MessageSquare size={16} /> WhatsApp Me
+                          </a>
+                        </div>
+                      </div>
+                    ) : (
+                      // Lightbox details for other projects
+                      <div className="w-full lg:w-[350px] p-6 lg:p-8 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-white/10 bg-zinc-950 h-[50%] lg:h-full">
+                        <div>
+                          <span className="text-xs font-bold text-blue-500 uppercase tracking-widest block mb-1">
+                            Project {projectIndex + 1}
+                          </span>
+                          <h3 className="text-3xl font-black uppercase tracking-tighter text-white mb-2">
+                            More Work
+                          </h3>
+                          <p className="text-sm text-zinc-400 leading-relaxed mb-6">
+                            Part of Oluwagbogo's extensive creative catalog representing diverse styles and design executions.
+                          </p>
+                          <div className="w-12 h-[2px] bg-blue-600 mb-6" />
+                        </div>
+                        
+                        <div className="pt-4 border-t border-white/5 flex gap-3">
+                          <a 
+                            href={`https://wa.me/+2348132531112?text=Hello%20Oluwagbogo,%20I'm%20interested%20in%20your%20project%20%23${projectIndex + 1}`}
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="flex-1 flex items-center justify-center gap-2 border border-white/15 hover:border-blue-600 hover:bg-blue-600/10 text-white py-3 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center"
+                          >
+                            <MessageSquare size={16} /> Enquire About This
+                          </a>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </motion.div>
           </motion.div>
         )}
@@ -502,4 +720,4 @@ export default function App() {
       `}</style>
     </div>
   );
-  }
+}
