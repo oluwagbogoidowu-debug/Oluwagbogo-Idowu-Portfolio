@@ -72,7 +72,7 @@ const FEATURED_PROJECTS = [
     id: IMAGE_IDS[0],
     title: 'Afriradar',
     subtitle: 'Content & Visual Design',
-    description: 'Designed engaging visual content to communicate fast-paced tech stories clearly and consistently across social media platforms, maintaining a modern and recognizable visual style.',
+    description: 'Designed engaging visual content to communicate fast-paced tech stories clearly and consistently across social media platforms, maintaining a modern and recognizable visual style.\n\nProblem: Tech updates in Africa were happening fast, but the visuals were often dry or lacked consistency.\nApproach: Created an eye-catching visual language with high contrast, crisp layouts, and clear typographic hierarchy for snackable content.\nOutcome: Established a dynamic, highly recognizable identity that kept viewers engaged on social channels.',
     tags: ['Content Design', 'Social Media', 'Tech', 'Africa'],
     url: getImageUrl(IMAGE_IDS[0])
   }
@@ -637,46 +637,32 @@ export default function App() {
                             </p>
                             
                             {parsed?.details && (
-                              <div>
-                                {(() => {
-                                  const isExpanded = !!expandedProjects[selectedProject.id];
+                              <div className="space-y-4 pt-1">
+                                {parsed.details.map((detail, idx) => {
+                                  const isProblem = detail.label.toLowerCase().includes('problem');
+                                  const isApproach = detail.label.toLowerCase().includes('approach');
+                                  const isOutcome = detail.label.toLowerCase().includes('outcome');
+
+                                  let tagStyles = 'bg-zinc-100 text-zinc-800 border-zinc-200/60';
+                                  if (isProblem) {
+                                    tagStyles = 'bg-rose-50 text-rose-800 border-rose-200/50';
+                                  } else if (isApproach) {
+                                    tagStyles = 'bg-blue-50 text-blue-800 border-blue-200/50';
+                                  } else if (isOutcome) {
+                                    tagStyles = 'bg-emerald-50 text-emerald-800 border-emerald-200/50';
+                                  }
+
                                   return (
-                                    <>
-                                      <button
-                                        onClick={() => setExpandedProjects(prev => ({ ...prev, [selectedProject.id]: !isExpanded }))}
-                                        className="flex items-center gap-2 px-4 py-2 border border-zinc-200 hover:border-blue-600 rounded-sm text-xs font-bold uppercase tracking-widest text-zinc-700 hover:text-zinc-900 transition-all cursor-pointer bg-white hover:bg-zinc-50 mb-4 shadow-xs"
-                                      >
-                                        <span>{isExpanded ? 'See Less' : 'See More'}</span>
-                                        <ChevronDown 
-                                          className={`w-3.5 h-3.5 text-blue-500 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
-                                        />
-                                      </button>
-                                      
-                                      <AnimatePresence initial={false}>
-                                        {isExpanded && (
-                                          <motion.div
-                                            initial={{ height: 0, opacity: 0 }}
-                                            animate={{ height: 'auto', opacity: 1 }}
-                                            exit={{ height: 0, opacity: 0 }}
-                                            transition={{ duration: 0.3, ease: 'easeInOut' }}
-                                            className="overflow-hidden space-y-4 pt-2"
-                                          >
-                                            {parsed.details.map((detail, idx) => (
-                                              <div key={idx} className="pl-3 border-l-2 border-blue-600/20">
-                                                <span className="text-zinc-900 font-black uppercase text-[10px] tracking-wider block mb-1">
-                                                  {detail.label}
-                                                </span>
-                                                <span className="text-zinc-600 text-sm leading-relaxed">
-                                                  {detail.text}
-                                                </span>
-                                              </div>
-                                            ))}
-                                          </motion.div>
-                                        )}
-                                      </AnimatePresence>
-                                    </>
+                                    <div key={idx} className="space-y-2 p-4 rounded-lg border border-zinc-200/40 bg-zinc-50/50 backdrop-blur-xs shadow-xs">
+                                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border ${tagStyles}`}>
+                                        {detail.label}
+                                      </span>
+                                      <p className="text-zinc-600 text-sm leading-relaxed pl-0.5">
+                                        {detail.text}
+                                      </p>
+                                    </div>
                                   );
-                                })()}
+                                })}
                               </div>
                             )}
                           </div>
