@@ -30,7 +30,7 @@ import metadata from '../metadata.json';
 // Google Drive Image IDs provided by the user
 const IMAGE_IDS = [
   '1oaglk7ZnnSn6nao3bgjdyioVsgxSCY85', // New Project 1
-  '1adBe3Z_E3_9mAPPG86f67dYENzT1jR7O', // New Project 2
+  '1kVJ_5XJrdujAhPUF2oGTTl9bKJ-le_8r', // New Project 2
   '1ENHWE5EojetEK2Fh1o1Vsf5jZzy0DkPi', // New Project 3
   '1zbQvw5PJXB4BiqbsOArqvYj1AI-fCIx-', // Old Project 1
   '1Oofcu-8Gr4SToeZWHhOj6lJAxFHOC7ZA', // Old Project 2
@@ -150,6 +150,17 @@ export default function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedProject]);
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 font-sans selection:bg-blue-600 selection:text-white">
@@ -535,37 +546,23 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-zinc-950/80 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
+            className="fixed inset-0 z-[100] bg-zinc-950 flex items-center justify-center p-0"
           >
             {/* Close Button */}
             <button 
               onClick={() => setSelectedProject(null)}
-              className="absolute top-4 right-4 lg:top-8 lg:right-8 p-3.5 bg-white hover:bg-blue-600 hover:text-white rounded-full border border-zinc-200 transition-colors z-50 cursor-pointer text-zinc-500 shadow-md"
+              className="absolute top-4 right-4 lg:top-6 lg:right-6 p-3 bg-white/90 hover:bg-blue-600 hover:text-white rounded-full border border-zinc-200 transition-colors z-50 cursor-pointer text-zinc-500 shadow-md backdrop-blur-md"
             >
               <X size={20} />
             </button>
 
-            {/* Navigation Buttons */}
-            <button 
-              onClick={(e) => { e.stopPropagation(); handlePrev(); }}
-              className="absolute left-2 lg:left-8 p-3.5 bg-white hover:bg-blue-600 hover:text-white rounded-full border border-zinc-200 transition-colors z-50 cursor-pointer text-zinc-500 shadow-md hidden sm:flex items-center justify-center"
-            >
-              <ChevronLeft size={24} />
-            </button>
-            <button 
-              onClick={(e) => { e.stopPropagation(); handleNext(); }}
-              className="absolute right-2 lg:right-8 p-3.5 bg-white hover:bg-blue-600 hover:text-white rounded-full border border-zinc-200 transition-colors z-50 cursor-pointer text-zinc-500 shadow-md hidden sm:flex items-center justify-center"
-            >
-              <ChevronRight size={24} />
-            </button>
-
             <motion.div 
               key={selectedProject.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-6xl bg-white border border-zinc-200/80 rounded-xl overflow-hidden shadow-2xl flex flex-col lg:flex-row h-[85vh] lg:h-[75vh]"
+              className="w-full h-full bg-zinc-950 flex flex-col lg:flex-row overflow-hidden relative"
             >
               {(() => {
                 const allItems = [...FEATURED_PROJECTS, ...CATALOGUE];
@@ -576,24 +573,46 @@ export default function App() {
                 
                 return (
                   <>
-                     {/* Left Side: Contained Image */}
-                    <div className="flex-1 bg-zinc-100 flex items-center justify-center relative overflow-hidden h-[50%] lg:h-full">
+                    {/* Full Bleed Ambient Color Underlay */}
+                    <img 
+                      src={selectedProject.url} 
+                      alt=""
+                      referrerPolicy="no-referrer"
+                      className="absolute inset-0 w-full h-full object-cover blur-[100px] opacity-[0.22] scale-105 pointer-events-none select-none z-0"
+                    />
+
+                    {/* Left Side: Contained Image */}
+                    <div className="flex-1 bg-transparent flex items-center justify-center relative overflow-hidden h-[50%] lg:h-full z-10">
+                      {/* Floating Navigation Buttons Inside Image Viewport */}
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); handlePrev(); }}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 p-2.5 sm:p-3.5 bg-white/80 hover:bg-blue-600 hover:text-white rounded-full border border-zinc-200/50 transition-colors z-40 cursor-pointer text-zinc-600 shadow-md flex items-center justify-center backdrop-blur-md"
+                      >
+                        <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
+                      </button>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); handleNext(); }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 sm:p-3.5 bg-white/80 hover:bg-blue-600 hover:text-white rounded-full border border-zinc-200/50 transition-colors z-40 cursor-pointer text-zinc-600 shadow-md flex items-center justify-center backdrop-blur-md"
+                      >
+                        <ChevronRight size={20} className="sm:w-6 sm:h-6" />
+                      </button>
+
                       <img 
                         src={selectedProject.url} 
                         alt={selectedProject.title || `Project ${projectIndex + 1}`}
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-contain max-h-full max-w-full"
+                        className="w-full h-full object-contain max-h-[85%] max-w-[90%] drop-shadow-2xl transition-transform duration-500 hover:scale-[1.02]"
                       />
                       
                       {/* Floating Navigation Controls on Image */}
-                      <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-3 py-1.5 rounded-sm border border-zinc-200 shadow-xs">
+                      <div className="absolute bottom-4 left-4 bg-white/85 backdrop-blur-md text-[9px] font-bold text-zinc-600 uppercase tracking-widest px-3 py-1.5 rounded-sm border border-zinc-200/50 shadow-sm">
                         Project {projectIndex + 1} of {totalProjects}
                       </div>
                     </div>
                     
                     {/* Right Side: Full Content Pane (only if featured / hasFullContent) */}
                     {hasFullContent ? (
-                      <div className="w-full lg:w-[460px] p-6 lg:p-8 flex flex-col justify-between overflow-y-auto border-t lg:border-t-0 lg:border-l border-zinc-200 bg-zinc-50/95 h-[50%] lg:h-full">
+                      <div className="w-full lg:w-[460px] p-6 lg:p-8 flex flex-col justify-between overflow-y-auto border-t lg:border-t-0 lg:border-l border-zinc-200/30 bg-white/85 backdrop-blur-xl h-[50%] lg:h-full relative z-10 shadow-2xl">
                         <div>
                           <div className="mb-6">
                             <span className="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">
@@ -675,12 +694,12 @@ export default function App() {
                         </div>
                         
                         {/* Action WhatsApp Button */}
-                        <div className="pt-4 border-t border-zinc-200/60 flex gap-3">
+                        <div className="pt-4 border-t border-zinc-200/20 flex gap-3">
                           <a 
                             href={`https://wa.me/+2348132531112?text=Hello%20Oluwagbogo,%20I'm%20interested%20in%20your%20project%20${selectedProject.title}`}
                             target="_blank" 
                             rel="noreferrer"
-                            className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center"
+                            className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center shadow-md"
                           >
                             <MessageSquare size={16} /> WhatsApp Me
                           </a>
@@ -688,7 +707,7 @@ export default function App() {
                       </div>
                     ) : (
                       // Lightbox details for other projects
-                      <div className="w-full lg:w-[350px] p-6 lg:p-8 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-zinc-200 bg-zinc-50 h-[50%] lg:h-full">
+                      <div className="w-full lg:w-[380px] p-6 lg:p-8 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-zinc-200/30 bg-white/85 backdrop-blur-xl h-[50%] lg:h-full relative z-10 shadow-2xl">
                         <div>
                           <span className="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">
                             Project {projectIndex + 1}
@@ -702,12 +721,12 @@ export default function App() {
                           <div className="w-12 h-[2px] bg-blue-600 mb-6" />
                         </div>
                         
-                        <div className="pt-4 border-t border-zinc-200/60 flex gap-3">
+                        <div className="pt-4 border-t border-zinc-200/20 flex gap-3">
                           <a 
                             href={`https://wa.me/+2348132531112?text=Hello%20Oluwagbogo,%20I'm%20interested%20in%20your%20project%20%23${projectIndex + 1}`}
                             target="_blank" 
                             rel="noreferrer"
-                            className="flex-1 flex items-center justify-center gap-2 border border-zinc-300 hover:border-blue-600 hover:bg-blue-50 text-zinc-800 py-3 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center"
+                            className="flex-1 flex items-center justify-center gap-2 border border-zinc-300 hover:border-blue-600 hover:bg-blue-50 text-zinc-800 py-3 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center shadow-sm"
                           >
                             <MessageSquare size={16} /> Enquire About This
                           </a>
