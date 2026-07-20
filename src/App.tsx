@@ -122,10 +122,10 @@ const parseDescription = (desc: string) => {
 };
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState<'work' | 'approach' | 'catalogue' | 'about' | 'contact'>('work');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<any | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const [expandedProjects, setExpandedProjects] = useState<Record<string, boolean>>({});
 
   const handleNext = () => {
     if (!selectedProject) return;
@@ -162,382 +162,459 @@ export default function App() {
     };
   }, [selectedProject]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeTab]);
+
+  const menuItems = [
+    { id: 'work', label: 'Featured', icon: Layers },
+    { id: 'approach', label: 'Design Approach', icon: Search },
+    { id: 'catalogue', label: 'More Projects', icon: Maximize2 },
+    { id: 'about', label: 'About & Capabilities', icon: PenTool },
+    { id: 'contact', label: 'Contact', icon: MessageSquare }
+  ] as const;
+
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 font-sans selection:bg-blue-600 selection:text-white">
-      {/* Navigation */}
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-4 border-b border-zinc-200/50' : 'bg-transparent py-8'}`}>
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-3 text-xl font-black tracking-tighter text-zinc-900"
-          >
+    <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 font-sans selection:bg-blue-600 selection:text-white flex flex-col lg:flex-row">
+      {/* Left Sidebar on Desktop */}
+      <aside className="hidden lg:flex lg:w-72 xl:w-80 h-screen fixed top-0 left-0 flex-col justify-between bg-white border-r border-zinc-200/80 p-8 z-30 select-none">
+        <div className="space-y-10">
+          {/* Brand header */}
+          <div className="flex items-center gap-3 text-xl font-black tracking-tighter text-zinc-900">
             <img 
               src={getImageUrl(metadata.logo)}
               alt="Logo"
-              className="w-8 h-8 rounded-full object-cover border border-zinc-200 shadow-sm"
+              className="w-8 h-8 rounded-full object-cover border border-zinc-200/80 shadow-xs"
               referrerPolicy="no-referrer"
             />
             <span>OLUWAGBOGO IDOWU.</span>
-          </motion.div>
-          
-          <div className="hidden md:flex gap-12 text-[10px] font-bold tracking-[0.3em] uppercase text-zinc-500">
-            {['Work', 'Approach', 'About', 'Contact'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-blue-600 transition-colors">
-                {item}
-              </a>
-            ))}
           </div>
 
-          <div className="flex items-center gap-4">
-            <a href="https://wa.me/+2348132531112" target="_blank" className="hidden md:flex text-[10px] font-bold tracking-widest uppercase bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-zinc-900 transition-all">
-              Start a Conversation
+          {/* Navigation links */}
+          <nav className="flex flex-col gap-1">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-md text-left font-bold text-xs uppercase tracking-wider transition-all cursor-pointer ${
+                    isActive 
+                      ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-4' 
+                      : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-50/80'
+                  }`}
+                >
+                  <Icon size={16} className={isActive ? 'text-blue-600' : 'text-zinc-400'} />
+                  {item.label}
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Footer info in sidebar */}
+        <div className="space-y-6">
+          <div className="flex gap-4 text-zinc-400">
+            <a href="https://wa.me/+2348132531112" target="_blank" rel="noreferrer" className="hover:text-blue-600 transition-colors">
+              <MessageSquare size={16} />
             </a>
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 hover:bg-zinc-100 rounded-full transition-colors text-zinc-800"
-            >
-              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            <a href="mailto:Oluwagbogoidowu@gmail.com" className="hover:text-blue-600 transition-colors">
+              <Mail size={16} />
+            </a>
+          </div>
+          <div className="text-[9px] font-bold text-zinc-400 tracking-widest uppercase">
+            © 2026 ALL RIGHTS RESERVED
           </div>
         </div>
-      </nav>
+      </aside>
 
-      {/* Mobile Menu */}
+      {/* Mobile Sticky Header */}
+      <header className="lg:hidden sticky top-0 w-full bg-white/95 backdrop-blur-md border-b border-zinc-200/60 p-4 flex items-center justify-between z-40 select-none">
+        <div className="flex items-center gap-3 text-xl font-black tracking-tighter text-zinc-900">
+          <img 
+            src={getImageUrl(metadata.logo)}
+            alt="Logo"
+            className="w-8 h-8 rounded-full object-cover border border-zinc-200/80 shadow-xs"
+            referrerPolicy="no-referrer"
+          />
+          <span>OLUWAGBOGO IDOWU.</span>
+        </div>
+        <button 
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="p-2 hover:bg-zinc-100 rounded-full transition-colors text-zinc-800 cursor-pointer"
+        >
+          {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
+        </button>
+      </header>
+
+      {/* Mobile Drawer menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
-            className="fixed inset-0 z-40 bg-white text-zinc-900 flex flex-col items-center justify-center gap-8 text-3xl font-bold"
+            transition={{ type: 'tween', duration: 0.3, ease: 'easeOut' }}
+            className="fixed inset-0 z-40 bg-white flex flex-col justify-between p-8 pt-24 lg:hidden"
           >
-            {['Work', 'Approach', 'About', 'Contact'].map((item) => (
+            <div className="space-y-8">
+              <nav className="flex flex-col gap-2">
+                {menuItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeTab === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setActiveTab(item.id);
+                        setIsMenuOpen(false);
+                      }}
+                      className={`flex items-center gap-4 w-full px-5 py-4 rounded-lg text-left font-bold text-sm uppercase tracking-wider transition-all cursor-pointer ${
+                        isActive 
+                          ? 'bg-blue-50 text-blue-600 border-l-4 border-blue-600' 
+                          : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50'
+                      }`}
+                    >
+                      <Icon size={18} className={isActive ? 'text-blue-600' : 'text-zinc-400'} />
+                      {item.label}
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
+
+            <div className="space-y-4 pt-8 border-t border-zinc-100">
               <a 
-                key={item} 
-                href={`#${item.toLowerCase()}`} 
-                onClick={() => setIsMenuOpen(false)}
-                className="text-zinc-800 hover:text-blue-600 transition-colors"
+                href="https://wa.me/+2348132531112" 
+                target="_blank" 
+                rel="noreferrer"
+                className="flex items-center justify-center gap-2 bg-blue-600 text-white w-full py-3.5 rounded-sm font-bold text-xs uppercase tracking-widest text-center"
               >
-                {item}
+                <MessageSquare size={14} /> WhatsApp Me
               </a>
-            ))}
-            <a href="https://wa.me/+2348132531112" className="text-sm bg-blue-600 text-white px-8 py-4 rounded-full mt-8 hover:bg-zinc-900 transition-colors">
-              WhatsApp Me
-            </a>
+              <div className="text-center text-[9px] font-bold text-zinc-400 tracking-widest uppercase">
+                © 2026 ALL RIGHTS RESERVED
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-20 overflow-hidden px-6">
-        {/* Subtle Grid Background */}
-        <div className="absolute inset-0 opacity-[0.04] pointer-events-none" 
-             style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-        
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <h1 className="text-5xl md:text-[7vw] font-black leading-[0.9] tracking-tighter uppercase mb-8 text-zinc-900">
-                I create <br />
-                Design that brings <br />
-                <span className="text-blue-600">clarity</span> to <br />
-                complex ideas
-              </h1>
-              <p className="max-w-xl text-lg md:text-xl text-zinc-600 mb-10 leading-relaxed font-medium">
-                I focus on turning unclear ideas into structured visual systems people can understand and act on. I’m a graphic, brand, and UI designer focused on building clear, structured visual systems.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <a href="#work" className="group flex items-center gap-3 bg-zinc-900 text-white px-8 py-4 rounded-sm font-bold hover:bg-blue-600 transition-all duration-300">
-                  View Selected Work
-                  <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
-                </a>
-              </div>
-            </motion.div>
-          </div>
-          
-          <div className="hidden lg:block lg:col-span-4 relative">
-            <motion.div 
-              animate={{ 
-                y: [0, -20, 0],
-                rotate: [0, 5, 0]
-              }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="w-full aspect-square border border-zinc-200 rounded-3xl flex items-center justify-center p-12 bg-white/70 shadow-sm backdrop-blur-sm"
-            >
-              <div className="w-full h-full border-2 border-blue-600/10 rounded-2xl flex items-center justify-center relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-4 h-4 bg-blue-600 -translate-x-1/2 -translate-y-1/2 z-10" />
-                <div className="absolute bottom-0 right-0 w-4 h-4 bg-blue-600 translate-x-1/2 translate-y-1/2 z-10" />
-                <img 
-                  src={getImageUrl(metadata.logo)}
-                  alt="Oluwagbogo Idowu Logo"
-                  className="w-full h-full object-cover rounded-xl"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      {/* Main Content Area */}
+      <div className="flex-1 lg:pl-72 xl:pl-80 min-h-screen bg-[#FAFAFA] flex flex-col relative">
+        <AnimatePresence mode="wait">
+          <motion.main
+            key={activeTab}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="flex-1 flex flex-col"
+          >
+            {activeTab === 'work' && (
+              <>
+                {/* Hero Section */}
+                <section className="relative min-h-[75vh] flex items-center pt-16 pb-12 overflow-hidden px-6 lg:px-12 bg-white border-b border-zinc-200/40">
+                  {/* Subtle Grid Background */}
+                  <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                       style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+                  
+                  <div className="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div className="lg:col-span-8">
+                      <motion.div
+                        initial={{ opacity: 0, y: 25 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        <h1 className="text-4xl sm:text-5xl md:text-[5.5vw] lg:text-[4.5vw] font-black leading-[0.95] tracking-tighter uppercase mb-6 text-zinc-900">
+                          I create <br />
+                          Design that brings <br />
+                          <span className="text-blue-600">clarity</span> to <br />
+                          complex ideas
+                        </h1>
+                        <p className="max-w-xl text-base sm:text-lg text-zinc-600 mb-8 leading-relaxed font-medium">
+                          I focus on turning unclear ideas into structured visual systems people can understand and act on. I’m a graphic, brand, and UI designer focused on building clear, structured visual systems.
+                        </p>
+                      </motion.div>
+                    </div>
+                    
+                    <div className="hidden lg:block lg:col-span-4 relative">
+                      <motion.div 
+                        animate={{ 
+                          y: [0, -12, 0],
+                          rotate: [0, 3, 0]
+                        }}
+                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                        className="w-full aspect-square border border-zinc-200 rounded-3xl flex items-center justify-center p-8 bg-white/70 shadow-xs backdrop-blur-xs"
+                      >
+                        <div className="w-full h-full border border-blue-600/10 rounded-2xl flex items-center justify-center relative overflow-hidden bg-zinc-50">
+                          <div className="absolute top-0 left-0 w-3 h-3 bg-blue-600 -translate-x-1/2 -translate-y-1/2 z-10" />
+                          <div className="absolute bottom-0 right-0 w-3 h-3 bg-blue-600 translate-x-1/2 translate-y-1/2 z-10" />
+                          <img 
+                            src={getImageUrl(metadata.logo)}
+                            alt="Oluwagbogo Idowu Logo"
+                            className="w-full h-full object-cover rounded-xl"
+                            referrerPolicy="no-referrer"
+                          />
+                        </div>
+                      </motion.div>
+                    </div>
+                  </div>
+                </section>
 
-      {/* Featured Work */}
-      <section id="work" className="py-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-20">
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase text-zinc-900">Selected Work</h2>
-          </div>
+                {/* Selected Work List */}
+                <section id="work-list" className="py-20 px-6 lg:px-12 bg-[#FAFAFA]">
+                  <div className="max-w-3xl mx-auto">
+                    <div className="mb-12 border-b border-zinc-200/60 pb-4">
+                      <h2 className="text-2xl sm:text-3xl font-black tracking-tight uppercase text-zinc-900">Featured.</h2>
+                    </div>
 
-          <div className="space-y-32">
-            {FEATURED_PROJECTS.map((project, index) => (
-              <motion.div 
-                key={project.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className={`grid grid-cols-1 lg:grid-cols-12 gap-12 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
-              >
-                <div className={`lg:col-span-7 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                  <div 
-                    onClick={() => setSelectedProject(project)}
-                    className="group relative aspect-[16/10] overflow-hidden bg-zinc-100 border border-zinc-200/50 rounded-lg cursor-pointer shadow-sm"
-                  >
-                    <img 
-                      src={project.url} 
-                      alt={project.title}
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-zinc-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <div className="p-4 bg-white/95 backdrop-blur-md rounded-full border border-zinc-200 text-blue-600 scale-90 group-hover:scale-100 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg">
-                        <Maximize2 size={20} />
-                        <span className="text-[10px] font-bold tracking-widest uppercase pr-1">Full Screen</span>
+                    <div className="space-y-16">
+                      {FEATURED_PROJECTS.map((project, index) => (
+                        <motion.div 
+                          key={project.id}
+                          initial={{ opacity: 0, y: 30 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.5 }}
+                          className="group cursor-pointer select-none"
+                          onClick={() => setSelectedProject(project)}
+                        >
+                          <div className="relative overflow-hidden bg-zinc-100 border border-zinc-200/50 rounded-lg aspect-[16/10] shadow-xs">
+                            <img 
+                              src={project.url} 
+                              alt={project.title}
+                              referrerPolicy="no-referrer"
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
+                            />
+                            {/* Subtle overlay on hover */}
+                            <div className="absolute inset-0 bg-zinc-950/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                              <div className="p-3 bg-white/95 backdrop-blur-md rounded-full border border-zinc-200 text-blue-600 scale-90 group-hover:scale-100 transition-all duration-300 flex items-center justify-center gap-2 shadow-md">
+                                <Maximize2 size={16} />
+                                <span className="text-[9px] font-bold tracking-widest uppercase pr-1">View Details</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="mt-4">
+                            <h3 className="text-lg sm:text-xl font-bold text-zinc-900 tracking-tight hover:text-blue-600 transition-colors leading-snug">
+                              {project.title}
+                            </h3>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              </>
+            )}
+
+            {activeTab === 'approach' && (
+              <section className="py-24 px-6 lg:px-12 bg-white flex-1">
+                <div className="max-w-5xl mx-auto">
+                  <div className="mb-16 border-b border-zinc-200/60 pb-6">
+                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-blue-600 block mb-2">Philosophy</span>
+                    <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-zinc-900">My Approach to Design</h2>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                    {[
+                      { icon: Search, title: 'Discover', desc: 'Understanding the business, audience, and problem.' },
+                      { icon: Layers, title: 'Structure', desc: 'Building a visual system that communicates clearly.' },
+                      { icon: PenTool, title: 'Design', desc: 'Crafting visuals that make the brand recognizable everywhere.' }
+                    ].map((item, i) => (
+                      <div key={i} className="p-8 border border-zinc-200/80 bg-zinc-50/50 rounded-xl hover:border-blue-600/40 hover:shadow-xs transition-all group">
+                        <item.icon className="mb-6 text-blue-600 group-hover:scale-110 transition-transform" size={32} />
+                        <h3 className="text-xl font-black uppercase mb-3 text-zinc-900">{item.title}</h3>
+                        <p className="text-zinc-600 text-sm leading-relaxed">{item.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Design Thinking Snapshot */}
+                  <div className="p-8 sm:p-12 border border-zinc-200 rounded-2xl bg-[#FAFAFA] shadow-xs">
+                    <div className="text-center mb-12">
+                      <h3 className="text-2xl font-black uppercase text-zinc-900">Design Thinking Snapshot</h3>
+                      <p className="text-xs text-zinc-400 mt-1 uppercase tracking-wider">How insights transition into communicative visual elements</p>
+                    </div>
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-20 h-20 rounded-full border border-zinc-200 text-zinc-700 bg-white flex items-center justify-center text-sm font-bold shadow-xs">Strategy</div>
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">1. Discover</span>
+                      </div>
+                      <ArrowRight className="hidden md:block text-blue-500 animate-pulse" size={24} />
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-24 h-24 rounded-full border border-blue-600/30 text-zinc-900 bg-blue-50/40 flex items-center justify-center text-lg font-black shadow-xs">System</div>
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-blue-600">2. Structure</span>
+                      </div>
+                      <ArrowRight className="hidden md:block text-blue-500 animate-pulse" size={24} />
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-20 h-20 rounded-full border border-zinc-200 text-zinc-700 bg-white flex items-center justify-center text-sm font-bold shadow-xs">Visuals</div>
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">3. Deliver</span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className={`lg:col-span-5 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
-                  <span className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-2 block">Project {index + 1}</span>
-                  
-                  <div className="flex items-center justify-between gap-4 mb-6">
-                    <h3 className="text-4xl md:text-5xl font-black tracking-tighter uppercase text-zinc-900">{project.title}</h3>
-                    <button
-                      onClick={() => setSelectedProject(project)}
-                      className="group/btn p-3 bg-white border border-zinc-200 rounded-full hover:border-blue-600 text-zinc-500 hover:text-blue-600 shadow-sm transition-all cursor-pointer flex items-center justify-center"
-                      title="View Full Screen (Full Bleed)"
-                    >
-                      <Maximize2 size={18} className="group-hover/btn:scale-110 transition-transform text-blue-500" />
-                    </button>
-                  </div>
-                  
-                  {(() => {
-                    const parsed = parseDescription(project.description);
-                    return (
-                      <p className="text-zinc-600 text-lg mb-8 leading-relaxed">
-                        {parsed.intro}
-                      </p>
-                    );
-                  })()}
+              </section>
+            )}
 
-                  <div className="flex flex-wrap gap-3 mb-8">
-                    {project.tags.map(tag => (
-                      <span key={tag} className="text-[10px] font-bold tracking-widest uppercase px-3 py-1 border border-zinc-200 bg-white text-zinc-600 rounded-full shadow-xs">
-                        {tag}
-                      </span>
+            {activeTab === 'catalogue' && (
+              <section className="py-24 px-6 lg:px-12 bg-white flex-1">
+                <div className="max-w-5xl mx-auto">
+                  <div className="mb-16 border-b border-zinc-200/60 pb-6">
+                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-blue-600 block mb-2">Extended Archive</span>
+                    <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-zinc-900">More Projects</h2>
+                    <p className="text-xs text-zinc-400 uppercase tracking-widest mt-1">A curated gallery of diverse styles and brand experiments</p>
+                  </div>
+
+                  <div className="columns-2 md:columns-3 gap-4">
+                    {CATALOGUE.map((item, index) => (
+                      <motion.div 
+                        key={item.id}
+                        whileHover={{ y: -4 }}
+                        className="break-inside-avoid relative group overflow-hidden rounded-lg cursor-pointer mb-4 shadow-xs border border-zinc-200/30 bg-zinc-100"
+                        onClick={() => setSelectedProject(item)}
+                      >
+                        {/* Very small project label */}
+                        <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-xs text-[7px] font-bold text-blue-600 uppercase tracking-widest px-1.5 py-0.5 rounded-[2px] border border-zinc-200/80 z-10">
+                          Project {index + 4}
+                        </div>
+                        <img 
+                          src={item.url} 
+                          alt={item.title} 
+                          referrerPolicy="no-referrer"
+                          className={`w-full h-auto object-cover transition-all duration-500 block ${
+                            index % 4 === 0 ? 'aspect-[4/5]' : 
+                            index % 4 === 1 ? 'aspect-[3/2]' : 
+                            index % 4 === 2 ? 'aspect-square' : 
+                            'aspect-[2/3]'
+                          }`}
+                        />
+                        <div className="absolute inset-0 bg-zinc-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4">
+                          <span className="text-[9px] font-bold text-zinc-900 bg-white uppercase tracking-widest border border-zinc-200 px-3 py-1.5 rounded-sm hover:bg-blue-600 hover:text-white transition-all shadow-md">
+                            View Project
+                          </span>
+                        </div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+              </section>
+            )}
 
-      {/* Picture Catalogue */}
-      <section className="pb-32 px-6 bg-[#FAFAFA] border-t border-zinc-200/50">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12">
-            <h2 className="text-3xl font-black uppercase tracking-tighter text-zinc-900">More Projects</h2>
-          </div>
-          <div className="columns-2 md:columns-3 lg:columns-4 gap-3">
-            {CATALOGUE.map((item, index) => (
-              <motion.div 
-                key={item.id}
-                whileHover={{ y: -5 }}
-                className="break-inside-avoid relative group overflow-hidden rounded-lg cursor-pointer mb-3 shadow-xs border border-zinc-200/30 bg-zinc-100"
-                onClick={() => setSelectedProject(item)}
-              >
-                {/* Very small project label */}
-                <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm text-[7.5px] font-bold text-blue-600 uppercase tracking-[0.12em] px-1.5 py-0.5 rounded-[2px] border border-zinc-200/80 z-10 transition-colors group-hover:border-blue-600/50">
-                  Project {index + 4}
+            {activeTab === 'about' && (
+              <section className="py-24 px-6 lg:px-12 bg-white flex-1">
+                <div className="max-w-5xl mx-auto">
+                  <div className="mb-16 border-b border-zinc-200/60 pb-6">
+                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-blue-600 block mb-2">Designer Profile</span>
+                    <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-zinc-900">About & capabilities</h2>
+                  </div>
+
+                  <div className="mb-20 p-8 sm:p-12 border border-zinc-200 rounded-2xl bg-zinc-50/50 relative overflow-hidden">
+                    <p className="text-xl sm:text-2xl font-medium leading-relaxed italic text-zinc-800 relative z-10">
+                      "My background spans graphic design and brand development, with a focus today on helping organizations communicate clearly through structured visual systems."
+                    </p>
+                    <div className="absolute right-4 bottom-4 text-blue-100 font-black text-9xl select-none pointer-events-none opacity-40">“</div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div>
+                      <h3 className="text-xl font-black uppercase mb-6 text-zinc-900 border-b border-zinc-200 pb-2">Design Capabilities</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {CAPABILITIES.map(item => (
+                          <div key={item} className="flex items-center gap-3 p-4 border border-zinc-100 bg-zinc-50/30 rounded-lg shadow-xs hover:border-zinc-200 transition-all">
+                            <div className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
+                            <span className="font-bold text-[10px] uppercase tracking-wider text-zinc-700">{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-8">
+                      <div>
+                        <h3 className="text-xl font-black uppercase mb-4 text-zinc-900 border-b border-zinc-200 pb-2">Design Tools</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {DESIGN_TOOLS.map(tool => (
+                            <span key={tool} className="px-4 py-2 bg-white border border-zinc-200 rounded-sm text-[10px] font-bold uppercase tracking-widest text-zinc-700 shadow-xs">
+                              {tool}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="text-xl font-black uppercase mb-4 text-zinc-900 border-b border-zinc-200 pb-2">Support Tools</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {SUPPORT_TOOLS.map(tool => (
+                            <span key={tool} className="px-4 py-2 bg-white border border-zinc-200 rounded-sm text-[10px] font-bold uppercase tracking-widest text-zinc-700 shadow-xs">
+                              {tool}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <img 
-                  src={item.url} 
-                  alt={item.title} 
-                  referrerPolicy="no-referrer"
-                  className={`w-full h-auto object-cover transition-all duration-500 block ${
-                    index % 4 === 0 ? 'aspect-[4/5]' : 
-                    index % 4 === 1 ? 'aspect-[3/2]' : 
-                    index % 4 === 2 ? 'aspect-square' : 
-                    'aspect-[2/3]'
-                  }`}
-                />
-                <div className="absolute inset-0 bg-zinc-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 text-center">
-                  <span className="text-[10px] font-bold text-zinc-900 bg-white uppercase tracking-widest border border-zinc-200 px-3 py-1.5 rounded-sm hover:bg-blue-600 hover:text-white transition-all shadow-md">
-                    View Project
-                  </span>
+              </section>
+            )}
+
+            {activeTab === 'contact' && (
+              <section className="py-24 px-6 lg:px-12 bg-white flex-1 flex flex-col justify-center">
+                <div className="max-w-5xl mx-auto w-full text-center">
+                  <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-blue-600 block mb-4">Start a Project</span>
+                  <h2 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8 text-zinc-900 leading-[1.05]">
+                    Let's build <br />
+                    something <span className="text-blue-600">clear and effective.</span>
+                  </h2>
+                  
+                  <div className="flex flex-col items-center gap-6 mb-16">
+                    <a 
+                      href="mailto:Oluwagbogoidowu@gmail.com" 
+                      className="text-xl sm:text-2xl md:text-3xl font-black text-zinc-800 hover:text-blue-600 transition-colors border-b border-zinc-300 hover:border-blue-600 pb-1"
+                    >
+                      Oluwagbogoidowu@gmail.com
+                    </a>
+                    <p className="text-xs text-zinc-400 uppercase tracking-widest font-bold">Lagos, Nigeria — Available Worldwide</p>
+                  </div>
+
+                  <div className="flex flex-wrap justify-center gap-4">
+                    <a 
+                      href="https://wa.me/+2348132531112" 
+                      target="_blank" 
+                      rel="noreferrer"
+                      className="group flex items-center gap-3 bg-[#25D366] hover:bg-emerald-600 text-white px-8 py-4 rounded-sm font-black text-xs uppercase tracking-widest transition-all shadow-md cursor-pointer"
+                    >
+                      <MessageSquare size={16} /> WhatsApp Direct
+                    </a>
+                    <a 
+                      href="mailto:Oluwagbogoidowu@gmail.com" 
+                      className="flex items-center gap-3 border border-zinc-300 hover:border-zinc-900 bg-white text-zinc-800 px-8 py-4 rounded-sm font-black text-xs uppercase tracking-widest transition-all shadow-xs cursor-pointer"
+                    >
+                      <Mail size={16} /> Send Email
+                    </a>
+                  </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+              </section>
+            )}
+          </motion.main>
+        </AnimatePresence>
 
-      {/* Approach Section */}
-      <section id="approach" className="py-32 px-6 bg-zinc-100/50 border-y border-zinc-200/80">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-24">
-            <span className="text-[10px] font-bold tracking-[0.5em] uppercase text-blue-600 mb-4 block">Your Edge</span>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase text-zinc-900">My Approach to Design</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[
-              { icon: Search, title: 'Discover', desc: 'Understanding the business, audience, and problem.' },
-              { icon: Layers, title: 'Structure', desc: 'Building a visual system that communicates clearly.' },
-              { icon: PenTool, title: 'Design', desc: 'Crafting visuals that make the brand recognizable everywhere.' }
-            ].map((item, i) => (
-              <div key={i} className="p-12 border border-zinc-200 bg-white rounded-2xl hover:border-blue-600/40 hover:shadow-md transition-all group">
-                <item.icon className="mb-8 text-blue-600 group-hover:scale-110 transition-transform" size={40} />
-                <h3 className="text-2xl font-black uppercase mb-4 text-zinc-900">{item.title}</h3>
-                <p className="text-zinc-600 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Design Thinking Snapshot */}
-          <div className="mt-32 p-12 border border-zinc-200 rounded-3xl bg-white shadow-sm">
-            <div className="text-center mb-16">
-              <h3 className="text-3xl font-black uppercase text-zinc-900">Design Thinking Snapshot</h3>
+        {/* Global Footer */}
+        <footer className="py-10 px-6 lg:px-12 border-t border-zinc-200/60 bg-white mt-auto">
+          <div className="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
+            <div className="text-xs font-black tracking-tighter text-zinc-800 uppercase">OLUWAGBOGO IDOWU.</div>
+            <div className="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-400">
+              © 2026 ALL RIGHTS RESERVED
             </div>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-24 h-24 rounded-full border-2 border-zinc-200 text-zinc-800 bg-zinc-50 flex items-center justify-center text-xl font-bold">The Pivot</div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Strategy</span>
-              </div>
-              <ArrowRight className="hidden md:block text-blue-600" size={32} />
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-32 h-32 rounded-full border-2 border-blue-600 text-zinc-900 bg-blue-50/50 flex items-center justify-center text-2xl font-black">Brand</div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600">Identity</span>
-              </div>
-              <ArrowRight className="hidden md:block text-blue-600" size={32} />
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-24 h-24 rounded-full border-2 border-zinc-200 text-zinc-800 bg-zinc-50 flex items-center justify-center text-xl font-bold">Comm.</div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Visuals</span>
-              </div>
+            <div className="flex gap-6 text-[9px] font-bold tracking-widest uppercase text-zinc-400">
+              <a href="#" className="hover:text-blue-600 transition-colors">Instagram</a>
+              <a href="#" className="hover:text-blue-600 transition-colors">Twitter</a>
+              <a href="#" className="hover:text-blue-600 transition-colors">Behance</a>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Capabilities & Tools */}
-      <section className="py-32 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
-          <div>
-            <h2 className="text-4xl font-black uppercase mb-12 text-zinc-900">Design Capabilities</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {CAPABILITIES.map(item => (
-                <div key={item} className="flex items-center gap-4 p-6 border border-zinc-200 bg-white rounded-lg hover:bg-zinc-50 shadow-sm transition-colors">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full" />
-                  <span className="font-bold text-sm uppercase tracking-wider text-zinc-800">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          <div>
-            <div className="mb-12">
-              <h2 className="text-4xl font-black uppercase mb-6 text-zinc-900">Design Tools</h2>
-              <div className="flex flex-wrap gap-3">
-                {DESIGN_TOOLS.map(tool => (
-                  <span key={tool} className="px-6 py-3 bg-white border border-zinc-200 rounded-sm text-xs font-bold uppercase tracking-widest text-zinc-800 hover:border-blue-600 shadow-sm transition-colors">
-                    {tool}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-4xl font-black uppercase mb-6 text-zinc-900">Support Tools</h2>
-              <div className="flex flex-wrap gap-3">
-                {SUPPORT_TOOLS.map(tool => (
-                  <span key={tool} className="px-6 py-3 bg-white border border-zinc-200 rounded-sm text-xs font-bold uppercase tracking-widest text-zinc-800 hover:border-blue-600 shadow-sm transition-colors">
-                    {tool}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Quick Background */}
-      <section id="about" className="py-32 px-6 border-y border-zinc-200 bg-zinc-50">
-        <div className="max-w-3xl mx-auto text-center">
-          <span className="text-[10px] font-bold tracking-[0.5em] uppercase text-blue-600 mb-8 block">Quick Background</span>
-          <p className="text-2xl md:text-3xl font-medium leading-relaxed italic text-zinc-800">
-            "My background spans graphic design and brand development, with a focus today on helping organizations communicate clearly through structured visual systems”
-          </p>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-32 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-12 text-zinc-900">
-            Let's build <br />
-            something <span className="text-blue-600">clear and effective.</span>
-          </h2>
-          
-          <div className="flex flex-col items-center gap-8 mb-20">
-            <a 
-              href="mailto:Oluwagbogoidowu@gmail.com" 
-              className="text-2xl md:text-4xl font-bold text-zinc-900 hover:text-blue-600 transition-colors"
-            >
-              Oluwagbogoidowu@gmail.com
-            </a>
-            <div className="flex gap-6">
-              <a href="https://wa.me/+2348132531112" target="_blank" className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-zinc-600 hover:text-blue-600 transition-colors">
-                <MessageSquare size={18} /> WhatsApp
-              </a>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-6">
-            <a href="https://wa.me/+2348132531112" className="border border-zinc-300 px-10 py-5 bg-white text-zinc-900 rounded-sm font-black uppercase tracking-widest hover:bg-zinc-50 transition-all shadow-sm">
-              Start a Conversation
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-zinc-200 bg-white">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-xl font-black tracking-tighter text-zinc-900">OLUWAGBOGO IDOWU.</div>
-          <div className="text-[10px] font-bold tracking-[0.3em] uppercase text-zinc-400">
-            © 2026 ALL RIGHTS RESERVED
-          </div>
-          <div className="flex gap-8 text-[10px] font-bold tracking-widest uppercase text-zinc-400">
-            <a href="#" className="hover:text-blue-600 transition-colors">Instagram</a>
-            <a href="#" className="hover:text-blue-600 transition-colors">Twitter</a>
-            <a href="#" className="hover:text-blue-600 transition-colors">Behance</a>
-          </div>
-        </div>
-      </footer>
+        </footer>
+      </div>
 
       {/* Project Modal */}
       <AnimatePresence mode="wait">
