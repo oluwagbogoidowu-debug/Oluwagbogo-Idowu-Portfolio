@@ -163,6 +163,21 @@ export default function App() {
   }, [selectedProject]);
 
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!selectedProject) return;
+      if (e.key === 'Escape') {
+        setSelectedProject(null);
+      } else if (e.key === 'ArrowRight') {
+        handleNext();
+      } else if (e.key === 'ArrowLeft') {
+        handlePrev();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedProject]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, [activeTab]);
 
@@ -175,7 +190,7 @@ export default function App() {
   ] as const;
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 font-sans selection:bg-blue-600 selection:text-white flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 font-sans selection:bg-amber-500 selection:text-white flex flex-col lg:flex-row">
       {/* Left Sidebar on Desktop */}
       <aside className="hidden lg:flex lg:w-72 xl:w-80 h-screen fixed top-0 left-0 flex-col justify-between bg-white border-r border-zinc-200/80 p-8 z-30 select-none">
         <div className="space-y-10">
@@ -201,11 +216,11 @@ export default function App() {
                   onClick={() => setActiveTab(item.id)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-md text-left font-bold text-xs uppercase tracking-wider transition-all cursor-pointer ${
                     isActive 
-                      ? 'bg-blue-50 text-blue-600 border-l-2 border-blue-600 pl-4' 
+                      ? 'bg-amber-50 text-amber-600 border-l-2 border-amber-500 pl-4' 
                       : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-50/80'
                   }`}
                 >
-                  <Icon size={16} className={isActive ? 'text-blue-600' : 'text-zinc-400'} />
+                  <Icon size={16} className={isActive ? 'text-amber-600' : 'text-zinc-400'} />
                   {item.label}
                 </button>
               );
@@ -216,10 +231,10 @@ export default function App() {
         {/* Footer info in sidebar */}
         <div className="space-y-6">
           <div className="flex gap-4 text-zinc-400">
-            <a href="https://wa.me/+2348132531112" target="_blank" rel="noreferrer" className="hover:text-blue-600 transition-colors">
+            <a href="https://wa.me/+2348132531112" target="_blank" rel="noreferrer" className="hover:text-amber-600 transition-colors">
               <MessageSquare size={16} />
             </a>
-            <a href="mailto:Oluwagbogoidowu@gmail.com" className="hover:text-blue-600 transition-colors">
+            <a href="mailto:Oluwagbogoidowu@gmail.com" className="hover:text-amber-600 transition-colors">
               <Mail size={16} />
             </a>
           </div>
@@ -270,13 +285,13 @@ export default function App() {
                         setActiveTab(item.id);
                         setIsMenuOpen(false);
                       }}
-                      className={`flex items-center gap-4 w-full px-5 py-4 rounded-lg text-left font-bold text-sm uppercase tracking-wider transition-all cursor-pointer ${
+                                      className={`flex items-center gap-4 w-full px-5 py-4 rounded-lg text-left font-bold text-sm uppercase tracking-wider transition-all cursor-pointer ${
                         isActive 
-                          ? 'bg-blue-50 text-blue-600 border-l-4 border-blue-600' 
+                          ? 'bg-amber-50 text-amber-600 border-l-4 border-amber-500' 
                           : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50'
                       }`}
                     >
-                      <Icon size={18} className={isActive ? 'text-blue-600' : 'text-zinc-400'} />
+                      <Icon size={18} className={isActive ? 'text-amber-600' : 'text-zinc-400'} />
                       {item.label}
                     </button>
                   );
@@ -289,7 +304,7 @@ export default function App() {
                 href="https://wa.me/+2348132531112" 
                 target="_blank" 
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 bg-blue-600 text-white w-full py-3.5 rounded-sm font-bold text-xs uppercase tracking-widest text-center"
+                className="flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white w-full py-3.5 rounded-sm font-bold text-xs uppercase tracking-widest text-center"
               >
                 <MessageSquare size={14} /> WhatsApp Me
               </a>
@@ -330,7 +345,7 @@ export default function App() {
                         <h1 className="text-4xl sm:text-5xl md:text-[5.5vw] lg:text-[4.5vw] font-black leading-[0.95] tracking-tighter uppercase mb-6 text-zinc-900">
                           I create <br />
                           Design that brings <br />
-                          <span className="text-blue-600">clarity</span> to <br />
+                          <span className="text-amber-500">clarity</span> to <br />
                           complex ideas
                         </h1>
                         <p className="max-w-xl text-base sm:text-lg text-zinc-600 mb-8 leading-relaxed font-medium">
@@ -348,9 +363,9 @@ export default function App() {
                         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                         className="w-full aspect-square border border-zinc-200 rounded-3xl flex items-center justify-center p-8 bg-white/70 shadow-xs backdrop-blur-xs"
                       >
-                        <div className="w-full h-full border border-blue-600/10 rounded-2xl flex items-center justify-center relative overflow-hidden bg-zinc-50">
-                          <div className="absolute top-0 left-0 w-3 h-3 bg-blue-600 -translate-x-1/2 -translate-y-1/2 z-10" />
-                          <div className="absolute bottom-0 right-0 w-3 h-3 bg-blue-600 translate-x-1/2 translate-y-1/2 z-10" />
+                        <div className="w-full h-full border border-amber-500/20 rounded-2xl flex items-center justify-center relative overflow-hidden bg-zinc-50">
+                          <div className="absolute top-0 left-0 w-3 h-3 bg-amber-500 -translate-x-1/2 -translate-y-1/2 z-10" />
+                          <div className="absolute bottom-0 right-0 w-3 h-3 bg-amber-500 translate-x-1/2 translate-y-1/2 z-10" />
                           <img 
                             src={getImageUrl(metadata.logo)}
                             alt="Oluwagbogo Idowu Logo"
@@ -390,7 +405,7 @@ export default function App() {
                             />
                             {/* Subtle overlay on hover */}
                             <div className="absolute inset-0 bg-zinc-950/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                              <div className="p-3 bg-white/95 backdrop-blur-md rounded-full border border-zinc-200 text-blue-600 scale-90 group-hover:scale-100 transition-all duration-300 flex items-center justify-center gap-2 shadow-md">
+                              <div className="p-3 bg-white/95 backdrop-blur-md rounded-full border border-zinc-200 text-amber-600 scale-90 group-hover:scale-100 transition-all duration-300 flex items-center justify-center gap-2 shadow-md">
                                 <Maximize2 size={16} />
                                 <span className="text-[9px] font-bold tracking-widest uppercase pr-1">View Details</span>
                               </div>
@@ -398,12 +413,66 @@ export default function App() {
                           </div>
                           
                           <div className="mt-4">
-                            <h3 className="text-lg sm:text-xl font-bold text-zinc-900 tracking-tight hover:text-blue-600 transition-colors leading-snug">
+                            <h3 className="text-lg sm:text-xl font-bold text-zinc-900 tracking-tight hover:text-amber-600 transition-colors leading-snug">
                               {project.title}
                             </h3>
                           </div>
                         </motion.div>
                       ))}
+                    </div>
+                  </div>
+                </section>
+
+                {/* More Projects Preview */}
+                <section className="py-20 px-6 lg:px-12 bg-white border-t border-zinc-200/60">
+                  <div className="max-w-3xl mx-auto">
+                    <div className="mb-10 flex items-center justify-between border-b border-zinc-200/60 pb-4">
+                      <div>
+                        <h2 className="text-xl sm:text-2xl font-black tracking-tight uppercase text-zinc-900">More Projects</h2>
+                        <p className="text-xs text-zinc-400 font-bold uppercase tracking-wider mt-1">Archive & Visual Explorations</p>
+                      </div>
+                      <button 
+                        onClick={() => setActiveTab('catalogue')}
+                        className="hidden sm:inline-flex items-center gap-2 text-xs font-bold text-amber-600 hover:text-zinc-950 uppercase tracking-wider transition-colors cursor-pointer"
+                      >
+                        See All <ArrowRight size={14} />
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      {CATALOGUE.slice(0, 6).map((item, index) => (
+                        <motion.div 
+                          key={item.id}
+                          whileHover={{ y: -4 }}
+                          className="relative group overflow-hidden rounded-lg cursor-pointer shadow-xs border border-zinc-200/40 bg-zinc-100 aspect-square"
+                          onClick={() => setSelectedProject(item)}
+                        >
+                          <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-xs text-[7px] font-bold text-amber-600 uppercase tracking-widest px-1.5 py-0.5 rounded-[2px] border border-zinc-200/80 z-10">
+                            Project {index + 4}
+                          </div>
+                          <img 
+                            src={item.url} 
+                            alt={item.title || `Project ${index + 4}`} 
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-zinc-950/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2">
+                            <span className="text-[9px] font-bold text-zinc-900 bg-white/95 uppercase tracking-widest px-3 py-1.5 rounded-sm shadow-md">
+                              View Project
+                            </span>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    <div className="mt-10 text-center">
+                      <button 
+                        onClick={() => setActiveTab('catalogue')}
+                        className="inline-flex items-center gap-3 bg-zinc-900 hover:bg-amber-600 text-white px-8 py-3.5 rounded-sm font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-sm cursor-pointer"
+                      >
+                        See More
+                        <ArrowRight size={14} />
+                      </button>
                     </div>
                   </div>
                 </section>
@@ -414,7 +483,7 @@ export default function App() {
               <section className="py-24 px-6 lg:px-12 bg-white flex-1">
                 <div className="max-w-5xl mx-auto">
                   <div className="mb-16 border-b border-zinc-200/60 pb-6">
-                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-blue-600 block mb-2">Philosophy</span>
+                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 block mb-2">Philosophy</span>
                     <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-zinc-900">My Approach to Design</h2>
                   </div>
 
@@ -424,8 +493,8 @@ export default function App() {
                       { icon: Layers, title: 'Structure', desc: 'Building a visual system that communicates clearly.' },
                       { icon: PenTool, title: 'Design', desc: 'Crafting visuals that make the brand recognizable everywhere.' }
                     ].map((item, i) => (
-                      <div key={i} className="p-8 border border-zinc-200/80 bg-zinc-50/50 rounded-xl hover:border-blue-600/40 hover:shadow-xs transition-all group">
-                        <item.icon className="mb-6 text-blue-600 group-hover:scale-110 transition-transform" size={32} />
+                      <div key={i} className="p-8 border border-zinc-200/80 bg-zinc-50/50 rounded-xl hover:border-amber-500/40 hover:shadow-xs transition-all group">
+                        <item.icon className="mb-6 text-amber-600 group-hover:scale-110 transition-transform" size={32} />
                         <h3 className="text-xl font-black uppercase mb-3 text-zinc-900">{item.title}</h3>
                         <p className="text-zinc-600 text-sm leading-relaxed">{item.desc}</p>
                       </div>
@@ -443,12 +512,12 @@ export default function App() {
                         <div className="w-20 h-20 rounded-full border border-zinc-200 text-zinc-700 bg-white flex items-center justify-center text-sm font-bold shadow-xs">Strategy</div>
                         <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">1. Discover</span>
                       </div>
-                      <ArrowRight className="hidden md:block text-blue-500 animate-pulse" size={24} />
+                      <ArrowRight className="hidden md:block text-amber-500 animate-pulse" size={24} />
                       <div className="flex flex-col items-center gap-3">
-                        <div className="w-24 h-24 rounded-full border border-blue-600/30 text-zinc-900 bg-blue-50/40 flex items-center justify-center text-lg font-black shadow-xs">System</div>
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-blue-600">2. Structure</span>
+                        <div className="w-24 h-24 rounded-full border border-amber-500/30 text-zinc-900 bg-amber-50/40 flex items-center justify-center text-lg font-black shadow-xs">System</div>
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-amber-600">2. Structure</span>
                       </div>
-                      <ArrowRight className="hidden md:block text-blue-500 animate-pulse" size={24} />
+                      <ArrowRight className="hidden md:block text-amber-500 animate-pulse" size={24} />
                       <div className="flex flex-col items-center gap-3">
                         <div className="w-20 h-20 rounded-full border border-zinc-200 text-zinc-700 bg-white flex items-center justify-center text-sm font-bold shadow-xs">Visuals</div>
                         <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">3. Deliver</span>
@@ -463,7 +532,7 @@ export default function App() {
               <section className="py-24 px-6 lg:px-12 bg-white flex-1">
                 <div className="max-w-5xl mx-auto">
                   <div className="mb-16 border-b border-zinc-200/60 pb-6">
-                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-blue-600 block mb-2">Extended Archive</span>
+                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 block mb-2">Extended Archive</span>
                     <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-zinc-900">More Projects</h2>
                     <p className="text-xs text-zinc-400 uppercase tracking-widest mt-1">A curated gallery of diverse styles and brand experiments</p>
                   </div>
@@ -477,7 +546,7 @@ export default function App() {
                         onClick={() => setSelectedProject(item)}
                       >
                         {/* Very small project label */}
-                        <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-xs text-[7px] font-bold text-blue-600 uppercase tracking-widest px-1.5 py-0.5 rounded-[2px] border border-zinc-200/80 z-10">
+                        <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-xs text-[7px] font-bold text-amber-600 uppercase tracking-widest px-1.5 py-0.5 rounded-[2px] border border-zinc-200/80 z-10">
                           Project {index + 4}
                         </div>
                         <img 
@@ -492,7 +561,7 @@ export default function App() {
                           }`}
                         />
                         <div className="absolute inset-0 bg-zinc-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4">
-                          <span className="text-[9px] font-bold text-zinc-900 bg-white uppercase tracking-widest border border-zinc-200 px-3 py-1.5 rounded-sm hover:bg-blue-600 hover:text-white transition-all shadow-md">
+                          <span className="text-[9px] font-bold text-zinc-900 bg-white uppercase tracking-widest border border-zinc-200 px-3 py-1.5 rounded-sm hover:bg-amber-500 hover:text-white transition-all shadow-md">
                             View Project
                           </span>
                         </div>
@@ -507,7 +576,7 @@ export default function App() {
               <section className="py-24 px-6 lg:px-12 bg-white flex-1">
                 <div className="max-w-5xl mx-auto">
                   <div className="mb-16 border-b border-zinc-200/60 pb-6">
-                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-blue-600 block mb-2">Designer Profile</span>
+                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 block mb-2">Designer Profile</span>
                     <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-zinc-900">About & capabilities</h2>
                   </div>
 
@@ -515,7 +584,7 @@ export default function App() {
                     <p className="text-xl sm:text-2xl font-medium leading-relaxed italic text-zinc-800 relative z-10">
                       "My background spans graphic design and brand development, with a focus today on helping organizations communicate clearly through structured visual systems."
                     </p>
-                    <div className="absolute right-4 bottom-4 text-blue-100 font-black text-9xl select-none pointer-events-none opacity-40">“</div>
+                    <div className="absolute right-4 bottom-4 text-amber-100 font-black text-9xl select-none pointer-events-none opacity-40">“</div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -524,7 +593,7 @@ export default function App() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {CAPABILITIES.map(item => (
                           <div key={item} className="flex items-center gap-3 p-4 border border-zinc-100 bg-zinc-50/30 rounded-lg shadow-xs hover:border-zinc-200 transition-all">
-                            <div className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
+                            <div className="w-1.5 h-1.5 bg-amber-500 rounded-full" />
                             <span className="font-bold text-[10px] uppercase tracking-wider text-zinc-700">{item}</span>
                           </div>
                         ))}
@@ -562,16 +631,16 @@ export default function App() {
             {activeTab === 'contact' && (
               <section className="py-24 px-6 lg:px-12 bg-white flex-1 flex flex-col justify-center">
                 <div className="max-w-5xl mx-auto w-full text-center">
-                  <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-blue-600 block mb-4">Start a Project</span>
+                  <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 block mb-4">Start a Project</span>
                   <h2 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8 text-zinc-900 leading-[1.05]">
                     Let's build <br />
-                    something <span className="text-blue-600">clear and effective.</span>
+                    something <span className="text-amber-500">clear and effective.</span>
                   </h2>
                   
                   <div className="flex flex-col items-center gap-6 mb-16">
                     <a 
                       href="mailto:Oluwagbogoidowu@gmail.com" 
-                      className="text-xl sm:text-2xl md:text-3xl font-black text-zinc-800 hover:text-blue-600 transition-colors border-b border-zinc-300 hover:border-blue-600 pb-1"
+                      className="text-xl sm:text-2xl md:text-3xl font-black text-zinc-800 hover:text-amber-600 transition-colors border-b border-zinc-300 hover:border-amber-600 pb-1"
                     >
                       Oluwagbogoidowu@gmail.com
                     </a>
@@ -608,9 +677,9 @@ export default function App() {
               © 2026 ALL RIGHTS RESERVED
             </div>
             <div className="flex gap-6 text-[9px] font-bold tracking-widest uppercase text-zinc-400">
-              <a href="#" className="hover:text-blue-600 transition-colors">Instagram</a>
-              <a href="#" className="hover:text-blue-600 transition-colors">Twitter</a>
-              <a href="#" className="hover:text-blue-600 transition-colors">Behance</a>
+              <a href="#" className="hover:text-amber-600 transition-colors">Instagram</a>
+              <a href="#" className="hover:text-amber-600 transition-colors">Twitter</a>
+              <a href="#" className="hover:text-amber-600 transition-colors">Behance</a>
             </div>
           </div>
         </footer>
@@ -623,118 +692,127 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-zinc-950 flex items-center justify-center p-0"
+            className="fixed inset-0 z-[100] bg-[#FAFAFA]/98 backdrop-blur-2xl flex flex-col overflow-hidden text-zinc-900"
           >
-            {/* Close Button */}
-            <button 
-              onClick={() => setSelectedProject(null)}
-              className="absolute top-4 right-4 lg:top-6 lg:right-6 p-3 bg-white/90 hover:bg-blue-600 hover:text-white rounded-full border border-zinc-200 transition-colors z-50 cursor-pointer text-zinc-500 shadow-md backdrop-blur-md"
-            >
-              <X size={20} />
-            </button>
+            {(() => {
+              const allItems = [...FEATURED_PROJECTS, ...CATALOGUE];
+              const projectIndex = allItems.findIndex(item => item.id === selectedProject.id);
+              const totalProjects = allItems.length;
+              const hasFullContent = !!selectedProject.description;
+              const parsed = hasFullContent ? parseDescription(selectedProject.description) : null;
 
-            <motion.div 
-              key={selectedProject.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full h-full bg-zinc-950 flex flex-col lg:flex-row overflow-hidden relative"
-            >
-              {(() => {
-                const allItems = [...FEATURED_PROJECTS, ...CATALOGUE];
-                const projectIndex = allItems.findIndex(item => item.id === selectedProject.id);
-                const totalProjects = allItems.length;
-                const hasFullContent = !!selectedProject.description;
-                const parsed = hasFullContent ? parseDescription(selectedProject.description) : null;
-                
-                return (
-                  <>
-                    {/* Full Bleed Ambient Color Underlay */}
-                    <img 
-                      src={selectedProject.url} 
-                      alt=""
-                      referrerPolicy="no-referrer"
-                      className="absolute inset-0 w-full h-full object-cover blur-[100px] opacity-[0.22] scale-105 pointer-events-none select-none z-0"
-                    />
+              return (
+                <div className="w-full h-full flex flex-col relative select-none">
+                  {/* Top Minimal Header */}
+                  <header className="h-16 px-6 lg:px-10 border-b border-zinc-200/80 bg-white/90 backdrop-blur-md flex items-center justify-between shrink-0 z-20">
+                    <div className="flex items-center gap-4">
+                      <span className="text-xs font-black tracking-tighter uppercase text-zinc-900 hidden sm:inline">
+                        OLUWAGBOGO IDOWU.
+                      </span>
+                      <span className="text-[10px] font-bold tracking-widest uppercase text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
+                        Project {projectIndex + 1} of {totalProjects}
+                      </span>
+                    </div>
 
-                    {/* Left Side: Contained Image */}
-                    <div className="flex-1 bg-transparent flex items-center justify-center relative overflow-hidden h-[50%] lg:h-full z-10">
-                      {/* Floating Navigation Buttons Inside Image Viewport */}
+                    <div className="text-sm font-black tracking-tight uppercase text-zinc-900 truncate max-w-[200px] sm:max-w-md">
+                      {selectedProject.title || `Project ${projectIndex + 1}`}
+                    </div>
+
+                    <button 
+                      onClick={() => setSelectedProject(null)}
+                      className="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:text-zinc-950 px-3 py-1.5 rounded-full border border-zinc-200 hover:border-zinc-900 transition-all cursor-pointer bg-white shadow-2xs"
+                    >
+                      <span className="hidden sm:inline text-[9px] text-zinc-400 font-mono">ESC</span>
+                      <span>Close</span>
+                      <X size={14} className="group-hover:rotate-90 transition-transform" />
+                    </button>
+                  </header>
+
+                  {/* Body Content */}
+                  <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+                    {/* Left Side: Artwork Showcase */}
+                    <div className="flex-1 bg-[#F4F4F5]/60 flex items-center justify-center p-6 lg:p-12 relative overflow-hidden h-[50%] lg:h-full">
+                      {/* Nav Previous */}
                       <button 
                         onClick={(e) => { e.stopPropagation(); handlePrev(); }}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 p-2.5 sm:p-3.5 bg-white/80 hover:bg-blue-600 hover:text-white rounded-full border border-zinc-200/50 transition-colors z-40 cursor-pointer text-zinc-600 shadow-md flex items-center justify-center backdrop-blur-md"
+                        className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 p-3 bg-white/90 hover:bg-zinc-900 hover:text-white rounded-full border border-zinc-200/80 transition-all z-30 cursor-pointer text-zinc-700 shadow-sm flex items-center justify-center backdrop-blur-md hover:scale-105"
+                        title="Previous Project (Left Arrow)"
                       >
-                        <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
-                      </button>
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); handleNext(); }}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 sm:p-3.5 bg-white/80 hover:bg-blue-600 hover:text-white rounded-full border border-zinc-200/50 transition-colors z-40 cursor-pointer text-zinc-600 shadow-md flex items-center justify-center backdrop-blur-md"
-                      >
-                        <ChevronRight size={20} className="sm:w-6 sm:h-6" />
+                        <ChevronLeft size={20} />
                       </button>
 
-                      <img 
-                        src={selectedProject.url} 
-                        alt={selectedProject.title || `Project ${projectIndex + 1}`}
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-contain max-h-[85%] max-w-[90%] drop-shadow-2xl transition-transform duration-500 hover:scale-[1.02]"
-                      />
-                      
-                      {/* Floating Navigation Controls on Image */}
-                      <div className="absolute bottom-4 left-4 bg-white/85 backdrop-blur-md text-[9px] font-bold text-zinc-600 uppercase tracking-widest px-3 py-1.5 rounded-sm border border-zinc-200/50 shadow-sm">
-                        Project {projectIndex + 1} of {totalProjects}
-                      </div>
+                      {/* Nav Next */}
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); handleNext(); }}
+                        className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 p-3 bg-white/90 hover:bg-zinc-900 hover:text-white rounded-full border border-zinc-200/80 transition-all z-30 cursor-pointer text-zinc-700 shadow-sm flex items-center justify-center backdrop-blur-md hover:scale-105"
+                        title="Next Project (Right Arrow)"
+                      >
+                        <ChevronRight size={20} />
+                      </button>
+
+                      {/* Image Frame */}
+                      <motion.div 
+                        key={selectedProject.id}
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                        className="w-full h-full flex items-center justify-center"
+                      >
+                        <img 
+                          src={selectedProject.url} 
+                          alt={selectedProject.title || `Project ${projectIndex + 1}`}
+                          referrerPolicy="no-referrer"
+                          className="max-w-full max-h-full object-contain rounded-md shadow-lg border border-zinc-200/60"
+                        />
+                      </motion.div>
                     </div>
-                    
-                    {/* Right Side: Full Content Pane (only if featured / hasFullContent) */}
+
+                    {/* Right Side: Information Pane */}
                     {hasFullContent ? (
-                      <div className="w-full lg:w-[460px] p-6 lg:p-8 flex flex-col justify-between overflow-y-auto border-t lg:border-t-0 lg:border-l border-zinc-200/30 bg-white/85 backdrop-blur-xl h-[50%] lg:h-full relative z-10 shadow-2xl">
+                      <div className="w-full lg:w-[440px] xl:w-[480px] p-6 lg:p-10 flex flex-col justify-between overflow-y-auto bg-white border-t lg:border-t-0 lg:border-l border-zinc-200/80 h-[50%] lg:h-full shrink-0 shadow-xs">
                         <div>
-                          <div className="mb-6">
-                            <span className="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">
-                              Project {projectIndex + 1}
+                          <div className="mb-6 border-b border-zinc-100 pb-5">
+                            <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest block mb-1">
+                              Featured Case Study
                             </span>
-                            <h3 className="text-3xl lg:text-4xl font-black uppercase tracking-tighter text-zinc-900">
+                            <h3 className="text-2xl lg:text-3xl font-black uppercase tracking-tight text-zinc-900 leading-tight">
                               {selectedProject.title}
                             </h3>
                             {selectedProject.subtitle && (
-                              <p className="text-xs font-bold text-zinc-500 tracking-wider uppercase mt-1">
+                              <p className="text-xs font-bold text-zinc-400 tracking-wider uppercase mt-1">
                                 {selectedProject.subtitle}
                               </p>
                             )}
                           </div>
-                          
-                          <div className="w-12 h-[2px] bg-blue-600 mb-6" />
-                          
+
                           {/* Parsed description details */}
                           <div className="space-y-5 text-zinc-600 text-sm leading-relaxed mb-6">
                             <p className="text-zinc-700 text-base font-medium leading-relaxed">
                               {parsed?.intro}
                             </p>
-                            
+
                             {parsed?.details && (
-                              <div className="space-y-4 pt-1">
+                              <div className="space-y-3 pt-1">
                                 {parsed.details.map((detail, idx) => {
                                   const isProblem = detail.label.toLowerCase().includes('problem');
                                   const isApproach = detail.label.toLowerCase().includes('approach');
                                   const isOutcome = detail.label.toLowerCase().includes('outcome');
 
-                                  let tagStyles = 'bg-zinc-100 text-zinc-800 border-zinc-200/60';
+                                  let tagStyles = 'bg-zinc-100 text-zinc-800 border-zinc-200';
                                   if (isProblem) {
-                                    tagStyles = 'bg-rose-50 text-rose-800 border-rose-200/50';
+                                    tagStyles = 'bg-rose-50 text-rose-800 border-rose-200/60';
                                   } else if (isApproach) {
-                                    tagStyles = 'bg-blue-50 text-blue-800 border-blue-200/50';
+                                    tagStyles = 'bg-amber-50 text-amber-900 border-amber-200/60';
                                   } else if (isOutcome) {
-                                    tagStyles = 'bg-emerald-50 text-emerald-800 border-emerald-200/50';
+                                    tagStyles = 'bg-emerald-50 text-emerald-800 border-emerald-200/60';
                                   }
 
                                   return (
-                                    <div key={idx} className="space-y-2 p-4 rounded-lg border border-zinc-200/40 bg-zinc-50/50 backdrop-blur-xs shadow-xs">
-                                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border ${tagStyles}`}>
+                                    <div key={idx} className="p-3.5 rounded-lg border border-zinc-200/60 bg-zinc-50/60">
+                                      <span className={`inline-flex items-center px-2 py-0.5 rounded-sm text-[8px] font-black uppercase tracking-wider border mb-1.5 ${tagStyles}`}>
                                         {detail.label}
                                       </span>
-                                      <p className="text-zinc-600 text-sm leading-relaxed pl-0.5">
+                                      <p className="text-zinc-600 text-xs sm:text-sm leading-relaxed">
                                         {detail.text}
                                       </p>
                                     </div>
@@ -743,63 +821,62 @@ export default function App() {
                               </div>
                             )}
                           </div>
-                          
+
                           {/* Tags */}
                           {selectedProject.tags && (
-                            <div className="flex flex-wrap gap-2 mb-8">
+                            <div className="flex flex-wrap gap-1.5 mb-8">
                               {selectedProject.tags.map((tag: string) => (
-                                <span key={tag} className="text-[9px] font-bold tracking-widest uppercase px-2.5 py-1 bg-zinc-200/50 border border-zinc-300/40 rounded-sm text-zinc-600">
+                                <span key={tag} className="text-[9px] font-bold tracking-widest uppercase px-2.5 py-1 bg-zinc-100 border border-zinc-200/80 rounded-full text-zinc-500">
                                   {tag}
                                 </span>
                               ))}
                             </div>
                           )}
                         </div>
-                        
-                        {/* Action WhatsApp Button */}
-                        <div className="pt-4 border-t border-zinc-200/20 flex gap-3">
+
+                        {/* Action CTA */}
+                        <div className="pt-4 border-t border-zinc-100">
                           <a 
                             href={`https://wa.me/+2348132531112?text=Hello%20Oluwagbogo,%20I'm%20interested%20in%20your%20project%20${selectedProject.title}`}
                             target="_blank" 
                             rel="noreferrer"
-                            className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center shadow-md"
+                            className="w-full flex items-center justify-center gap-2 bg-zinc-900 hover:bg-amber-600 text-white py-3.5 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center shadow-xs"
                           >
                             <MessageSquare size={16} /> WhatsApp Me
                           </a>
                         </div>
                       </div>
                     ) : (
-                      // Lightbox details for other projects
-                      <div className="w-full lg:w-[380px] p-6 lg:p-8 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-zinc-200/30 bg-white/85 backdrop-blur-xl h-[50%] lg:h-full relative z-10 shadow-2xl">
+                      <div className="w-full lg:w-[380px] p-6 lg:p-10 flex flex-col justify-between bg-white border-t lg:border-t-0 lg:border-l border-zinc-200/80 h-[50%] lg:h-full shrink-0 shadow-xs">
                         <div>
-                          <span className="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">
-                            Project {projectIndex + 1}
+                          <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest block mb-1">
+                            Portfolio Project
                           </span>
-                          <h3 className="text-3xl font-black uppercase tracking-tighter text-zinc-900 mb-2">
-                            More Work
+                          <h3 className="text-2xl font-black uppercase tracking-tight text-zinc-900 mb-2">
+                            {selectedProject.title || `Project ${projectIndex + 1}`}
                           </h3>
-                          <p className="text-sm text-zinc-600 leading-relaxed mb-6">
-                            Part of Oluwagbogo's extensive creative catalog representing diverse styles and design executions.
+                          <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed mb-6">
+                            Part of Oluwagbogo's creative catalog representing graphic design, brand identity, and typography explorations.
                           </p>
-                          <div className="w-12 h-[2px] bg-blue-600 mb-6" />
+                          <div className="w-10 h-[2px] bg-zinc-900 mb-6" />
                         </div>
-                        
-                        <div className="pt-4 border-t border-zinc-200/20 flex gap-3">
+
+                        <div className="pt-4 border-t border-zinc-100">
                           <a 
                             href={`https://wa.me/+2348132531112?text=Hello%20Oluwagbogo,%20I'm%20interested%20in%20your%20project%20%23${projectIndex + 1}`}
                             target="_blank" 
                             rel="noreferrer"
-                            className="flex-1 flex items-center justify-center gap-2 border border-zinc-300 hover:border-blue-600 hover:bg-blue-50 text-zinc-800 py-3 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center shadow-sm"
+                            className="w-full flex items-center justify-center gap-2 bg-zinc-900 hover:bg-amber-600 text-white py-3.5 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center shadow-xs"
                           >
                             <MessageSquare size={16} /> Enquire About This
                           </a>
                         </div>
                       </div>
                     )}
-                  </>
-                );
-              })()}
-            </motion.div>
+                  </div>
+                </div>
+              );
+            })()}
           </motion.div>
         )}
       </AnimatePresence>
