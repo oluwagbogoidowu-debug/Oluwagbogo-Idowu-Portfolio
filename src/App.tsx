@@ -190,7 +190,7 @@ export default function App() {
   ] as const;
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 font-sans selection:bg-amber-500 selection:text-white flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 font-sans selection:bg-[#D6AB2B] selection:text-white flex flex-col lg:flex-row">
       {/* Left Sidebar on Desktop */}
       <aside className="hidden lg:flex lg:w-72 xl:w-80 h-screen fixed top-0 left-0 flex-col justify-between bg-white border-r border-zinc-200/80 p-8 z-30 select-none">
         <div className="space-y-10">
@@ -216,11 +216,11 @@ export default function App() {
                   onClick={() => setActiveTab(item.id)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-md text-left font-bold text-xs uppercase tracking-wider transition-all cursor-pointer ${
                     isActive 
-                      ? 'bg-amber-50 text-amber-600 border-l-2 border-amber-500 pl-4' 
+                      ? 'bg-[#D6AB2B]/10 text-[#D6AB2B] border-l-2 border-[#D6AB2B] pl-4 font-black' 
                       : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-50/80'
                   }`}
                 >
-                  <Icon size={16} className={isActive ? 'text-amber-600' : 'text-zinc-400'} />
+                  <Icon size={16} className={isActive ? 'text-[#D6AB2B]' : 'text-zinc-400'} />
                   {item.label}
                 </button>
               );
@@ -231,10 +231,10 @@ export default function App() {
         {/* Footer info in sidebar */}
         <div className="space-y-6">
           <div className="flex gap-4 text-zinc-400">
-            <a href="https://wa.me/+2348132531112" target="_blank" rel="noreferrer" className="hover:text-amber-600 transition-colors">
+            <a href="https://wa.me/+2348132531112" target="_blank" rel="noreferrer" className="hover:text-[#D6AB2B] transition-colors">
               <MessageSquare size={16} />
             </a>
-            <a href="mailto:Oluwagbogoidowu@gmail.com" className="hover:text-amber-600 transition-colors">
+            <a href="mailto:Oluwagbogoidowu@gmail.com" className="hover:text-[#D6AB2B] transition-colors">
               <Mail size={16} />
             </a>
           </div>
@@ -285,13 +285,13 @@ export default function App() {
                         setActiveTab(item.id);
                         setIsMenuOpen(false);
                       }}
-                                      className={`flex items-center gap-4 w-full px-5 py-4 rounded-lg text-left font-bold text-sm uppercase tracking-wider transition-all cursor-pointer ${
+                      className={`flex items-center gap-4 w-full px-5 py-4 rounded-lg text-left font-bold text-sm uppercase tracking-wider transition-all cursor-pointer ${
                         isActive 
-                          ? 'bg-amber-50 text-amber-600 border-l-4 border-amber-500' 
+                          ? 'bg-[#D6AB2B]/10 text-[#D6AB2B] border-l-4 border-[#D6AB2B] font-black' 
                           : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50'
                       }`}
                     >
-                      <Icon size={18} className={isActive ? 'text-amber-600' : 'text-zinc-400'} />
+                      <Icon size={18} className={isActive ? 'text-[#D6AB2B]' : 'text-zinc-400'} />
                       {item.label}
                     </button>
                   );
@@ -304,7 +304,7 @@ export default function App() {
                 href="https://wa.me/+2348132531112" 
                 target="_blank" 
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white w-full py-3.5 rounded-sm font-bold text-xs uppercase tracking-widest text-center"
+                className="flex items-center justify-center gap-2 bg-[#D6AB2B] hover:bg-[#C29922] text-white w-full py-3.5 rounded-sm font-bold text-xs uppercase tracking-widest text-center shadow-sm"
               >
                 <MessageSquare size={14} /> WhatsApp Me
               </a>
@@ -345,7 +345,7 @@ export default function App() {
                         <h1 className="text-4xl sm:text-5xl md:text-[5.5vw] lg:text-[4.5vw] font-black leading-[0.95] tracking-tighter uppercase mb-6 text-zinc-900">
                           I create <br />
                           Design that brings <br />
-                          <span className="text-amber-500">clarity</span> to <br />
+                          <span className="text-[#D6AB2B]">clarity</span> to <br />
                           complex ideas
                         </h1>
                         <p className="max-w-xl text-base sm:text-lg text-zinc-600 mb-8 leading-relaxed font-medium">
@@ -363,9 +363,9 @@ export default function App() {
                         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                         className="w-full aspect-square border border-zinc-200 rounded-3xl flex items-center justify-center p-8 bg-white/70 shadow-xs backdrop-blur-xs"
                       >
-                        <div className="w-full h-full border border-amber-500/20 rounded-2xl flex items-center justify-center relative overflow-hidden bg-zinc-50">
-                          <div className="absolute top-0 left-0 w-3 h-3 bg-amber-500 -translate-x-1/2 -translate-y-1/2 z-10" />
-                          <div className="absolute bottom-0 right-0 w-3 h-3 bg-amber-500 translate-x-1/2 translate-y-1/2 z-10" />
+                        <div className="w-full h-full border border-[#D6AB2B]/20 rounded-2xl flex items-center justify-center relative overflow-hidden bg-zinc-50">
+                          <div className="absolute top-0 left-0 w-3 h-3 bg-[#D6AB2B] -translate-x-1/2 -translate-y-1/2 z-10" />
+                          <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#D6AB2B] translate-x-1/2 translate-y-1/2 z-10" />
                           <img 
                             src={getImageUrl(metadata.logo)}
                             alt="Oluwagbogo Idowu Logo"
@@ -405,7 +405,7 @@ export default function App() {
                             />
                             {/* Subtle overlay on hover */}
                             <div className="absolute inset-0 bg-zinc-950/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                              <div className="p-3 bg-white/95 backdrop-blur-md rounded-full border border-zinc-200 text-amber-600 scale-90 group-hover:scale-100 transition-all duration-300 flex items-center justify-center gap-2 shadow-md">
+                              <div className="p-3 bg-white/95 backdrop-blur-md rounded-full border border-zinc-200 text-[#D6AB2B] scale-90 group-hover:scale-100 transition-all duration-300 flex items-center justify-center gap-2 shadow-md">
                                 <Maximize2 size={16} />
                                 <span className="text-[9px] font-bold tracking-widest uppercase pr-1">View Details</span>
                               </div>
@@ -413,7 +413,7 @@ export default function App() {
                           </div>
                           
                           <div className="mt-4">
-                            <h3 className="text-lg sm:text-xl font-bold text-zinc-900 tracking-tight hover:text-amber-600 transition-colors leading-snug">
+                            <h3 className="text-lg sm:text-xl font-bold text-zinc-900 tracking-tight hover:text-[#D6AB2B] transition-colors leading-snug">
                               {project.title}
                             </h3>
                           </div>
@@ -433,7 +433,7 @@ export default function App() {
                       </div>
                       <button 
                         onClick={() => setActiveTab('catalogue')}
-                        className="hidden sm:inline-flex items-center gap-2 text-xs font-bold text-amber-600 hover:text-zinc-950 uppercase tracking-wider transition-colors cursor-pointer"
+                        className="hidden sm:inline-flex items-center gap-2 text-xs font-bold text-[#D6AB2B] hover:text-zinc-950 uppercase tracking-wider transition-colors cursor-pointer"
                       >
                         See All <ArrowRight size={14} />
                       </button>
@@ -447,7 +447,7 @@ export default function App() {
                           className="relative group overflow-hidden rounded-lg cursor-pointer shadow-xs border border-zinc-200/40 bg-zinc-100 aspect-square"
                           onClick={() => setSelectedProject(item)}
                         >
-                          <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-xs text-[7px] font-bold text-amber-600 uppercase tracking-widest px-1.5 py-0.5 rounded-[2px] border border-zinc-200/80 z-10">
+                          <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-xs text-[7px] font-bold text-[#D6AB2B] uppercase tracking-widest px-1.5 py-0.5 rounded-[2px] border border-zinc-200/80 z-10">
                             Project {index + 4}
                           </div>
                           <img 
@@ -465,14 +465,24 @@ export default function App() {
                       ))}
                     </div>
 
-                    <div className="mt-10 text-center">
+                    <div className="mt-10 text-center flex flex-col items-center gap-3.5">
                       <button 
                         onClick={() => setActiveTab('catalogue')}
-                        className="inline-flex items-center gap-3 bg-zinc-900 hover:bg-amber-600 text-white px-8 py-3.5 rounded-sm font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-sm cursor-pointer"
+                        className="inline-flex items-center gap-3 bg-zinc-900 hover:bg-[#D6AB2B] text-white px-8 py-3.5 rounded-sm font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-sm cursor-pointer"
                       >
                         See More
                         <ArrowRight size={14} />
                       </button>
+                      
+                      <a 
+                        href="https://drive.google.com/file/d/1HDj4qCuwzVb0boBzHUDDHSu2FrnHTTZb/view?usp=drivesdk"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-zinc-500 hover:text-[#D6AB2B] transition-colors py-1.5 px-3 rounded-sm border border-transparent hover:border-zinc-200 hover:bg-zinc-50 cursor-pointer"
+                      >
+                        <span>Compilation of best branding works</span>
+                        <ExternalLink size={13} />
+                      </a>
                     </div>
                   </div>
                 </section>
@@ -483,7 +493,7 @@ export default function App() {
               <section className="py-24 px-6 lg:px-12 bg-white flex-1">
                 <div className="max-w-5xl mx-auto">
                   <div className="mb-16 border-b border-zinc-200/60 pb-6">
-                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 block mb-2">Philosophy</span>
+                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#D6AB2B] block mb-2">Philosophy</span>
                     <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-zinc-900">My Approach to Design</h2>
                   </div>
 
@@ -493,8 +503,8 @@ export default function App() {
                       { icon: Layers, title: 'Structure', desc: 'Building a visual system that communicates clearly.' },
                       { icon: PenTool, title: 'Design', desc: 'Crafting visuals that make the brand recognizable everywhere.' }
                     ].map((item, i) => (
-                      <div key={i} className="p-8 border border-zinc-200/80 bg-zinc-50/50 rounded-xl hover:border-amber-500/40 hover:shadow-xs transition-all group">
-                        <item.icon className="mb-6 text-amber-600 group-hover:scale-110 transition-transform" size={32} />
+                      <div key={i} className="p-8 border border-zinc-200/80 bg-zinc-50/50 rounded-xl hover:border-[#D6AB2B]/40 hover:shadow-xs transition-all group">
+                        <item.icon className="mb-6 text-[#D6AB2B] group-hover:scale-110 transition-transform" size={32} />
                         <h3 className="text-xl font-black uppercase mb-3 text-zinc-900">{item.title}</h3>
                         <p className="text-zinc-600 text-sm leading-relaxed">{item.desc}</p>
                       </div>
@@ -512,12 +522,12 @@ export default function App() {
                         <div className="w-20 h-20 rounded-full border border-zinc-200 text-zinc-700 bg-white flex items-center justify-center text-sm font-bold shadow-xs">Strategy</div>
                         <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">1. Discover</span>
                       </div>
-                      <ArrowRight className="hidden md:block text-amber-500 animate-pulse" size={24} />
+                      <ArrowRight className="hidden md:block text-[#D6AB2B] animate-pulse" size={24} />
                       <div className="flex flex-col items-center gap-3">
-                        <div className="w-24 h-24 rounded-full border border-amber-500/30 text-zinc-900 bg-amber-50/40 flex items-center justify-center text-lg font-black shadow-xs">System</div>
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-amber-600">2. Structure</span>
+                        <div className="w-24 h-24 rounded-full border border-[#D6AB2B]/30 text-zinc-900 bg-[#D6AB2B]/10 flex items-center justify-center text-lg font-black shadow-xs">System</div>
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-[#D6AB2B]">2. Structure</span>
                       </div>
-                      <ArrowRight className="hidden md:block text-amber-500 animate-pulse" size={24} />
+                      <ArrowRight className="hidden md:block text-[#D6AB2B] animate-pulse" size={24} />
                       <div className="flex flex-col items-center gap-3">
                         <div className="w-20 h-20 rounded-full border border-zinc-200 text-zinc-700 bg-white flex items-center justify-center text-sm font-bold shadow-xs">Visuals</div>
                         <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">3. Deliver</span>
@@ -532,7 +542,7 @@ export default function App() {
               <section className="py-24 px-6 lg:px-12 bg-white flex-1">
                 <div className="max-w-5xl mx-auto">
                   <div className="mb-16 border-b border-zinc-200/60 pb-6">
-                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 block mb-2">Extended Archive</span>
+                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#D6AB2B] block mb-2">Extended Archive</span>
                     <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-zinc-900">More Projects</h2>
                     <p className="text-xs text-zinc-400 uppercase tracking-widest mt-1">A curated gallery of diverse styles and brand experiments</p>
                   </div>
@@ -546,7 +556,7 @@ export default function App() {
                         onClick={() => setSelectedProject(item)}
                       >
                         {/* Very small project label */}
-                        <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-xs text-[7px] font-bold text-amber-600 uppercase tracking-widest px-1.5 py-0.5 rounded-[2px] border border-zinc-200/80 z-10">
+                        <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-xs text-[7px] font-bold text-[#D6AB2B] uppercase tracking-widest px-1.5 py-0.5 rounded-[2px] border border-zinc-200/80 z-10">
                           Project {index + 4}
                         </div>
                         <img 
@@ -561,7 +571,7 @@ export default function App() {
                           }`}
                         />
                         <div className="absolute inset-0 bg-zinc-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4">
-                          <span className="text-[9px] font-bold text-zinc-900 bg-white uppercase tracking-widest border border-zinc-200 px-3 py-1.5 rounded-sm hover:bg-amber-500 hover:text-white transition-all shadow-md">
+                          <span className="text-[9px] font-bold text-zinc-900 bg-white uppercase tracking-widest border border-zinc-200 px-3 py-1.5 rounded-sm hover:bg-[#D6AB2B] hover:text-white transition-all shadow-md">
                             View Project
                           </span>
                         </div>
@@ -576,7 +586,7 @@ export default function App() {
               <section className="py-24 px-6 lg:px-12 bg-white flex-1">
                 <div className="max-w-5xl mx-auto">
                   <div className="mb-16 border-b border-zinc-200/60 pb-6">
-                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 block mb-2">Designer Profile</span>
+                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#D6AB2B] block mb-2">Designer Profile</span>
                     <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-zinc-900">About & capabilities</h2>
                   </div>
 
@@ -584,7 +594,7 @@ export default function App() {
                     <p className="text-xl sm:text-2xl font-medium leading-relaxed italic text-zinc-800 relative z-10">
                       "My background spans graphic design and brand development, with a focus today on helping organizations communicate clearly through structured visual systems."
                     </p>
-                    <div className="absolute right-4 bottom-4 text-amber-100 font-black text-9xl select-none pointer-events-none opacity-40">“</div>
+                    <div className="absolute right-4 bottom-4 text-[#D6AB2B]/15 font-black text-9xl select-none pointer-events-none">“</div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -593,7 +603,7 @@ export default function App() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {CAPABILITIES.map(item => (
                           <div key={item} className="flex items-center gap-3 p-4 border border-zinc-100 bg-zinc-50/30 rounded-lg shadow-xs hover:border-zinc-200 transition-all">
-                            <div className="w-1.5 h-1.5 bg-amber-500 rounded-full" />
+                            <div className="w-1.5 h-1.5 bg-[#D6AB2B] rounded-full" />
                             <span className="font-bold text-[10px] uppercase tracking-wider text-zinc-700">{item}</span>
                           </div>
                         ))}
@@ -631,16 +641,16 @@ export default function App() {
             {activeTab === 'contact' && (
               <section className="py-24 px-6 lg:px-12 bg-white flex-1 flex flex-col justify-center">
                 <div className="max-w-5xl mx-auto w-full text-center">
-                  <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 block mb-4">Start a Project</span>
+                  <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#D6AB2B] block mb-4">Start a Project</span>
                   <h2 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8 text-zinc-900 leading-[1.05]">
                     Let's build <br />
-                    something <span className="text-amber-500">clear and effective.</span>
+                    something <span className="text-[#D6AB2B]">clear and effective.</span>
                   </h2>
                   
                   <div className="flex flex-col items-center gap-6 mb-16">
                     <a 
                       href="mailto:Oluwagbogoidowu@gmail.com" 
-                      className="text-xl sm:text-2xl md:text-3xl font-black text-zinc-800 hover:text-amber-600 transition-colors border-b border-zinc-300 hover:border-amber-600 pb-1"
+                      className="text-xl sm:text-2xl md:text-3xl font-black text-zinc-800 hover:text-[#D6AB2B] transition-colors border-b border-zinc-300 hover:border-[#D6AB2B] pb-1"
                     >
                       Oluwagbogoidowu@gmail.com
                     </a>
@@ -677,9 +687,9 @@ export default function App() {
               © 2026 ALL RIGHTS RESERVED
             </div>
             <div className="flex gap-6 text-[9px] font-bold tracking-widest uppercase text-zinc-400">
-              <a href="#" className="hover:text-amber-600 transition-colors">Instagram</a>
-              <a href="#" className="hover:text-amber-600 transition-colors">Twitter</a>
-              <a href="#" className="hover:text-amber-600 transition-colors">Behance</a>
+              <a href="#" className="hover:text-[#D6AB2B] transition-colors">Instagram</a>
+              <a href="#" className="hover:text-[#D6AB2B] transition-colors">Twitter</a>
+              <a href="#" className="hover:text-[#D6AB2B] transition-colors">Behance</a>
             </div>
           </div>
         </footer>
@@ -709,8 +719,8 @@ export default function App() {
                       <span className="text-xs font-black tracking-tighter uppercase text-zinc-900 hidden sm:inline">
                         OLUWAGBOGO IDOWU.
                       </span>
-                      <span className="text-[10px] font-bold tracking-widest uppercase text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
-                        Project {projectIndex + 1} of {totalProjects}
+                      <span className="text-[10px] font-bold tracking-widest uppercase text-[#D6AB2B] bg-[#D6AB2B]/10 px-2.5 py-1 rounded-full border border-[#D6AB2B]/30 font-mono">
+                        {projectIndex + 1}/{totalProjects}
                       </span>
                     </div>
 
@@ -772,7 +782,7 @@ export default function App() {
                       <div className="w-full lg:w-[440px] xl:w-[480px] p-6 lg:p-10 flex flex-col justify-between overflow-y-auto bg-white border-t lg:border-t-0 lg:border-l border-zinc-200/80 h-[50%] lg:h-full shrink-0 shadow-xs">
                         <div>
                           <div className="mb-6 border-b border-zinc-100 pb-5">
-                            <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest block mb-1">
+                            <span className="text-[10px] font-bold text-[#D6AB2B] uppercase tracking-widest block mb-1">
                               Featured Case Study
                             </span>
                             <h3 className="text-2xl lg:text-3xl font-black uppercase tracking-tight text-zinc-900 leading-tight">
@@ -802,7 +812,7 @@ export default function App() {
                                   if (isProblem) {
                                     tagStyles = 'bg-rose-50 text-rose-800 border-rose-200/60';
                                   } else if (isApproach) {
-                                    tagStyles = 'bg-amber-50 text-amber-900 border-amber-200/60';
+                                    tagStyles = 'bg-[#D6AB2B]/10 text-[#8F6F16] border-[#D6AB2B]/30';
                                   } else if (isOutcome) {
                                     tagStyles = 'bg-emerald-50 text-emerald-800 border-emerald-200/60';
                                   }
@@ -840,7 +850,7 @@ export default function App() {
                             href={`https://wa.me/+2348132531112?text=Hello%20Oluwagbogo,%20I'm%20interested%20in%20your%20project%20${selectedProject.title}`}
                             target="_blank" 
                             rel="noreferrer"
-                            className="w-full flex items-center justify-center gap-2 bg-zinc-900 hover:bg-amber-600 text-white py-3.5 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center shadow-xs"
+                            className="w-full flex items-center justify-center gap-2 bg-zinc-900 hover:bg-[#D6AB2B] text-white py-3.5 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center shadow-xs"
                           >
                             <MessageSquare size={16} /> WhatsApp Me
                           </a>
@@ -849,7 +859,7 @@ export default function App() {
                     ) : (
                       <div className="w-full lg:w-[380px] p-6 lg:p-10 flex flex-col justify-between bg-white border-t lg:border-t-0 lg:border-l border-zinc-200/80 h-[50%] lg:h-full shrink-0 shadow-xs">
                         <div>
-                          <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest block mb-1">
+                          <span className="text-[10px] font-bold text-[#D6AB2B] uppercase tracking-widest block mb-1">
                             Portfolio Project
                           </span>
                           <h3 className="text-2xl font-black uppercase tracking-tight text-zinc-900 mb-2">
@@ -866,7 +876,7 @@ export default function App() {
                             href={`https://wa.me/+2348132531112?text=Hello%20Oluwagbogo,%20I'm%20interested%20in%20your%20project%20%23${projectIndex + 1}`}
                             target="_blank" 
                             rel="noreferrer"
-                            className="w-full flex items-center justify-center gap-2 bg-zinc-900 hover:bg-amber-600 text-white py-3.5 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center shadow-xs"
+                            className="w-full flex items-center justify-center gap-2 bg-zinc-900 hover:bg-[#D6AB2B] text-white py-3.5 px-4 rounded-sm font-bold text-xs uppercase tracking-widest transition-all text-center shadow-xs"
                           >
                             <MessageSquare size={16} /> Enquire About This
                           </a>
